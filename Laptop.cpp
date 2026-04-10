@@ -1,0 +1,9 @@
+//
+// Created by axel on 9/4/2026.
+//
+
+#include "Laptop.h"
+
+Laptop::Laptop(double crit, double tiempo) : Equipo(crit, tiempo) { }
+
+string Laptop::getTipo() const { return "Laptop"; }
