@@ -8,6 +8,7 @@
 #include "ListaIncidencia.h"
 using namespace std;
 
+
 class Equipo {
 protected:
     string id;
@@ -15,6 +16,7 @@ protected:
     double tiempoInactividad;
     ListaIncidencia* incidencias;
 public:
+    static int contador; //cuenta cuantos equipos se han creado
     Equipo(double crit, double tiempo);
     string getId() const;
     double getPrioridad() const;

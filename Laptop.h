@@ -9,6 +9,7 @@
 
 class Laptop : public Equipo {
 public:
+    Laptop();
     Laptop(double crit, double tiempo);
     string getTipo() const;
 };

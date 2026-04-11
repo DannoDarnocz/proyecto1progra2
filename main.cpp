@@ -1,18 +1,87 @@
 #include <iostream>
+#include "ListaEquipo.h"
+#include "ErrorDecimal.h"
+#include "ErrorNegativo.h"
+#include "Laptop.h"
+#include "ComputadoraEscritorio.h"
+using namespace std;
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+ListaEquipo* cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
+
 int main()
 {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
+    ListaEquipo* equipos = new ListaEquipo();
+    equipos = cargarDatosQuemados(equipos);
 
-    for (int i = 1; i <= 5; i++)
+    // Menú principal
+    bool repetir = true;
+    string dato;
+
+    while (repetir)
     {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
+        system("cls");
+        cout << "— SISTEMA INTELIGENTE DE MANTENIMIENTO —"<<endl<<endl
+        << "Equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
+        << "   1. Ingresar nuevos dispositivos"<<endl
+        << "   2. Ejecutar simulacion"<<endl<<endl
+         << "Escriba el numero de la opcion: ";
+
+        getline(cin,dato);
+        if (dato=="2")
+        {
+            repetir = false;
+        }
+        else if (dato=="1")
+        {
+            // agregar nuevo equipo a mano
+            while (dato!="0")
+            {
+                system("cls");
+                cout << "— AGREGAR NUEVO EQUIPO —"<<endl<<endl
+                << "Tipos de equipo: " << endl
+                << "   1. Laptop"<<endl
+                << "   2. Computadora de escritorio"<<endl
+                << "   3. Microscopio"<<endl
+                << "   4. Osciloscopio"<<endl
+                << "   0. Salir"<<endl<<endl
+                 << "Escriba el numero de la opcion: ";
+
+                getline(cin,dato);
+                Equipo* nuevoEquipo = nullptr;
+                try
+                {
+                    switch (dato)
+                    {
+                    case "1":
+                        nuevoEquipo = new Laptop;
+                        break;
+                    case "2":
+                        nuevoEquipo = new ComputadoraEscritorio;
+                        break;
+                    case "3":
+                        nuevoEquipo = new Microscopio;
+                        break;
+                    case "4":
+                        nuevoEquipo = new Osciloscopio;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
-    return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+
+
+    for (int dia=1;dia<=30;dia++)
+    {
+
+    }
+}
+
+ListaEquipo cargarDatos(ListaEquipo* l)
+{
+    for (int i=0;i<100;i++)
+    {
+        l->insertarFinal();
+    }
 }

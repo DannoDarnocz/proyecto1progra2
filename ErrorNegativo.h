@@ -5,6 +5,7 @@
 #ifndef PROYECTO_1_ERRORNEGATIVO_H
 #define PROYECTO_1_ERRORNEGATIVO_H
 
+#include
 
 class ErrorNegativo {
 };

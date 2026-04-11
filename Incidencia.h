@@ -6,6 +6,7 @@
 #define PROYECTO_1_INCIDENCIA_H
 #include "Equipo.h"
 
+class Equipo;
 
 class Incidencia {
 public:

@@ -12,6 +12,7 @@ private:
 public:
     NodoEquipo* sig;
     NodoEquipo();
+    ~NodoEquipo();
     Equipo* getEquipo() const;
     void setEquipo(Equipo* O);
     NodoEquipo* getSig() const;

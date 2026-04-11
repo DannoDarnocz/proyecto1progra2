@@ -5,8 +5,9 @@
 #include "Equipo.h"
 #include "ctime"
 
+int Equipo::contador = 0;
+
 Equipo::Equipo(double crit, double tiempo) {
-    static int contador = 0;
     contador++;
     this->id=to_string(contador);
     this->criticidad=crit;
