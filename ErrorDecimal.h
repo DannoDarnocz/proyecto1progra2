@@ -5,8 +5,13 @@
 #ifndef PROYECTO_1_ERRORDECIMAL_H
 #define PROYECTO_1_ERRORDECIMAL_H
 
+#include <exception>
 
-class ErrorDecimal {
+using namespace std;
+
+class ErrorDecimal : public exception {
+    public:
+    const char* what() const noexcept override;
 };
 
 

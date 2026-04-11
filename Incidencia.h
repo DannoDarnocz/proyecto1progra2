@@ -9,6 +9,9 @@
 class Equipo;
 
 class Incidencia {
+private:
+    double criticidad;
+    double tiempo;
 public:
     Incidencia(Equipo* e, int severidad, int dia);
     //Implementar el resto de metodos y atributos

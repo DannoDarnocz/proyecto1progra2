@@ -12,16 +12,13 @@ using namespace std;
 class Equipo {
 protected:
     string id;
-    double criticidad;
-    double tiempoInactividad;
     ListaIncidencia* incidencias;
 public:
     static int contador; //cuenta cuantos equipos se han creado
     Equipo(double crit, double tiempo);
     string getId() const;
-    double getPrioridad() const;
     int cantidadIncidencias(); //Devuelve cantidad de incidencias existentes
-    double calcPrioridad();    //Calcula su nivel de prioridad
+    double calcPrioridad() const;    //Calcula su nivel de prioridad
     void aplicarDegradacion(int dia); //Aplica degradación al equipo en un dia especifico
     virtual string getTipo() const = 0; //Devuelve tipo de las hijas
 };

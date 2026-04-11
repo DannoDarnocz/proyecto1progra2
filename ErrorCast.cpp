@@ -3,3 +3,8 @@
 //
 
 #include "ErrorCast.h"
+
+const char* ErrorCast::what() const noexcept
+{
+    return "El casteo no se pudo hacer de forma correcta.";
+}

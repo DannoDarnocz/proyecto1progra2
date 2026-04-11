@@ -5,8 +5,13 @@
 #ifndef PROYECTO_1_ERRORCAST_H
 #define PROYECTO_1_ERRORCAST_H
 
+#include <exception>
 
-class ErrorCast {
+using namespace std;
+
+class ErrorCast : public exception {
+    public:
+    const char* what() const noexcept override;
 };
 
 
