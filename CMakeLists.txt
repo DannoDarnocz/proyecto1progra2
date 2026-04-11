@@ -43,4 +43,8 @@ add_executable(Proyecto_1 main.cpp
         ErrorNegativo.cpp
         ErrorNegativo.h
         ErrorCast.cpp
-        ErrorCast.h)
+        ErrorCast.h
+        Osciloscopio.cpp
+        Osciloscopio.h
+        Microscopio.cpp
+        Microscopio.h)

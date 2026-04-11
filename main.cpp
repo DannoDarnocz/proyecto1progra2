@@ -4,6 +4,8 @@
 #include "ErrorNegativo.h"
 #include "Laptop.h"
 #include "ComputadoraEscritorio.h"
+#include "Osciloscopio.h"
+#include "Microscopio.h"
 using namespace std;
 
 ListaEquipo* cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
