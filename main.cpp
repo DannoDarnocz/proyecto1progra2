@@ -1,9 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include "ListaEquipo.h"
 #include "ErrorDecimal.h"
 #include "ErrorNegativo.h"
 #include "Laptop.h"
 #include "ComputadoraEscritorio.h"
+#include "ErrorArchivo.h"
 #include "Osciloscopio.h"
 #include "Microscopio.h"
 using namespace std;
@@ -23,15 +25,20 @@ int main()
     {
         system("cls");
         cout << "— SISTEMA INTELIGENTE DE MANTENIMIENTO —"<<endl<<endl
-        << "Equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
+        << "# de equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
         << "   1. Ingresar nuevos dispositivos"<<endl
-        << "   2. Ejecutar simulacion"<<endl<<endl
+        << "   2. Ver lista de dispositivos"<<endl
+        << "   3. Ejecutar simulacion"<<endl<<endl
          << "Escriba el numero de la opcion: ";
 
         getline(cin,dato);
-        if (dato=="2")
+        if (dato=="3")
         {
             repetir = false;
+        }
+        else if (dato=="2")
+        {
+            
         }
         else if (dato=="1")
         {
@@ -76,8 +83,28 @@ int main()
 
     for (int dia=1;dia<=30;dia++)
     {
+        equipos.aplicarDegradacionTodos();
 
-    }
+        // reporte
+        try
+        {
+            ofstream f("registros.txt",ios::app);
+
+            if (!f)
+            {
+                throw ErrorArchivo();
+            }
+
+            f << "---- DIA " << dia << " ----"<< endl<< endl
+            << "Equipos atendidos: 3" << endl
+            << "Equipos pendientes de atencion: " << endl
+            << "Riesgo global del laboratorio (promedio de prioridades): " << endl;
+        }
+        catch (ErrorArchivo& e)
+        {
+            cout << e.what() << endl;
+        }
+}
 }
 
 ListaEquipo cargarDatos(ListaEquipo* l)
@@ -87,3 +114,4 @@ ListaEquipo cargarDatos(ListaEquipo* l)
         l->insertarFinal();
     }
 }
+

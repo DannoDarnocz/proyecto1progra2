@@ -10,6 +10,8 @@ NodoEquipo* ListaEquipo::validarPos(int pos) {
 	for (int i = 0; i < pos; i++) { actual = actual->sig; }
 	return actual;
 }
+
+
 int ListaEquipo::obtenerPos(string id) {
     if (!primero) return -1;
     actual = primero;
@@ -146,4 +148,16 @@ NodoEquipo* ListaEquipo::buscarPorId(double prioridad) {
 bool ListaEquipo::ordenarPrioridad() {
     //Falta ordenamiento
     return false;
+}
+
+// degradacion
+void ListaEquipo::degradarTodos(int dia)
+{
+    // recorrer todos los nodos degradnado
+    while (actual)
+    {
+        actual = primero;
+        actual->getEquipo()->aplicarDegradacion(dia);
+        actual = actual->getSig();
+    }
 }

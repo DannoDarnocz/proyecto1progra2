@@ -12,6 +12,8 @@ using namespace std;
 class Equipo {
 protected:
     string id;
+    int diaMantenimiento; // día en el cual se le hizo el último mantenimiento
+    float criticidad;
     ListaIncidencia* incidencias;
 public:
     static int contador; //cuenta cuantos equipos se han creado

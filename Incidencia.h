@@ -12,9 +12,11 @@ class Incidencia {
 private:
     double criticidad;
     double tiempo;
+    int dia;
 public:
     Incidencia(Equipo* e, int severidad, int dia);
-    //Implementar el resto de metodos y atributos
+
+    double calcularPrioridad();
 };
 
 

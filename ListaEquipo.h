@@ -37,6 +37,9 @@ public:
 
     //Ordenamiento
     bool ordenarPrioridad();
+
+    //degradacion
+    void degradarTodos(int dia);
 };
 
 

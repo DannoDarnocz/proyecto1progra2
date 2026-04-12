@@ -4,7 +4,7 @@
 
 #ifndef PROYECTO_1_NODOINCIDENCIA_H
 #define PROYECTO_1_NODOINCIDENCIA_H
-
+#include "Incidencia.h"
 
 class NodoIncidencia {
 private:
