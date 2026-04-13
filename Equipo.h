@@ -17,10 +17,10 @@ protected:
     ListaIncidencia* incidencias;
 public:
     static int contador; //cuenta cuantos equipos se han creado
-    Equipo(double crit, double tiempo);
+    Equipo(double crit, int diaMant);
     string getId() const;
-    int cantidadIncidencias(); //Devuelve cantidad de incidencias existentes
-    double calcPrioridad() const;    //Calcula su nivel de prioridad
+    int cantidadIncidencias() const; //Devuelve cantidad de incidencias existentes
+    double calcPrioridad(int) const;    //Calcula su nivel de prioridad
     void aplicarDegradacion(int dia); //Aplica degradación al equipo en un dia especifico
     virtual string getTipo() const = 0; //Devuelve tipo de las hijas
 };

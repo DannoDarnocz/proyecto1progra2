@@ -3,3 +3,5 @@
 //
 
 #include "Incidencia.h"
+
+Incidencia::Incidencia(Equipo* e, int severidad, int dia):equipo(e),severidad(severidad),dia(dia){};

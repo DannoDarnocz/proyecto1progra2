@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+
+#include "AllInOne.h"
 #include "ListaEquipo.h"
 #include "ErrorDecimal.h"
 #include "ErrorNegativo.h"
@@ -10,12 +13,13 @@
 #include "Microscopio.h"
 using namespace std;
 
-ListaEquipo* cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
+void cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
+void sortearIncidencias(ListaEquipo*,int,int);
 
 int main()
 {
     ListaEquipo* equipos = new ListaEquipo();
-    equipos = cargarDatosQuemados(equipos);
+    cargarDatosQuemados(equipos);
 
     // Menú principal
     bool repetir = true;
@@ -79,13 +83,24 @@ int main()
         }
     }
 
+    // Sorteo inicial de 300 incidencias
+    int dia=0;
+    sortearIncidencias(equipos,300,dia);
 
 
-    for (int dia=1;dia<=30;dia++)
+    for (dia=1;dia<=30;dia++)
     {
+
+
         equipos.aplicarDegradacionTodos();
+        stringstream resultado;
+
 
         // reporte
+        resultado << "---- DIA " << dia << " ----"<< endl<< endl
+            << "Equipos atendidos: 3" << endl
+            << "Equipos pendientes de atencion: " << endl
+            << "Riesgo global del laboratorio (promedio de prioridades): " << endl;
         try
         {
             ofstream f("registros.txt",ios::app);
@@ -95,10 +110,7 @@ int main()
                 throw ErrorArchivo();
             }
 
-            f << "---- DIA " << dia << " ----"<< endl<< endl
-            << "Equipos atendidos: 3" << endl
-            << "Equipos pendientes de atencion: " << endl
-            << "Riesgo global del laboratorio (promedio de prioridades): " << endl;
+            f << resultado;
         }
         catch (ErrorArchivo& e)
         {
@@ -107,11 +119,61 @@ int main()
 }
 }
 
-ListaEquipo cargarDatos(ListaEquipo* l)
+void cargarDatosQuemados(ListaEquipo* l)
 {
+    Equipo* equipoNuevo = nullptr;
     for (int i=0;i<100;i++)
     {
-        l->insertarFinal();
+        int tipoRand = rand() % 5;
+        int critRand = rand() % 100;
+
+        switch (tipoRand)
+        {
+        case 0:
+            equipoNuevo = new Laptop(critRand,0);
+            break;
+        case 1:
+            equipoNuevo = new ComputadoraEscritorio(critRand,0);
+            break;
+        case 2:
+            equipoNuevo = new AllInOne(critRand,0);
+            break;
+        case 3:
+            equipoNuevo = new Microscopio(critRand,0);
+            break;
+        case 4:
+            equipoNuevo = new Osciloscopio(critRand,0);
+            break;
+        }
+        l->insertarFinal(equipoNuevo);
     }
+}
+
+void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
+{
+    try
+    {
+        if (cantidad<=0)
+        {
+            throw ErrorNegativo();
+        }
+
+        Incidencia* nueva = nullptr;
+        for (int i=0;i<300;i++)
+        {
+            int pos = rand() % l->getTam();
+            Equipo* e = l->buscarPorPos(pos)->getEquipo();
+            int severidad = rand() % 3; // 0, 1 o 2
+            e->aplicarDegradacion(dia);
+        }
+    }
+    catch (ErrorNegativo& e)
+    {
+        cout << e.what() << endl;
+    }
+    catch (exception& e) {
+        cout << "Ocurrió un error inesperado al sortear las incidencias." << endl;
+    }
+
 }
 

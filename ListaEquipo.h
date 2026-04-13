@@ -33,7 +33,7 @@ public:
 
     // Búsquedas
     NodoEquipo* buscarPorId(double prioridad); //Busqueda Binaria por prioridad
-    NodoEquipo* validarPos(int); //Valida Nodo en la cantidad total
+    NodoEquipo* buscarPorPos(int); // Busca por posición
 
     //Ordenamiento
     bool ordenarPrioridad();

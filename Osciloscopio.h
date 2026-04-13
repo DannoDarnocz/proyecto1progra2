@@ -9,7 +9,8 @@
 class Osciloscopio : public Equipo
 {
 public:
-    Osciloscopio();
+    Osciloscopio(double crit, double tiempo);
+    string getTipo() const;
 };
 
 

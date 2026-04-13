@@ -7,4 +7,4 @@
 NodoIncidencia::NodoIncidencia() : miIncidencia(nullptr), sig(nullptr) {}
 Incidencia* NodoIncidencia::getIncidencia() const { return miIncidencia; }
 void NodoIncidencia::setIncidencia(Incidencia* O) { miIncidencia = O; }
-Nodo* NodoIncidencia::getSig() const { return sig; }
+NodoIncidencia* NodoIncidencia::getSig() const { return sig; }

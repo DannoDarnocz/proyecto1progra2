@@ -10,7 +10,8 @@
 class Microscopio : public Equipo
 {
 public:
-    Microscopio();
+    Microscopio(double crit, double tiempo);
+    string getTipo() const;
 };
 
 

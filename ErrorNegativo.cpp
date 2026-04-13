@@ -6,5 +6,5 @@
 
 const char* ErrorNegativo::what() const noexcept
 {
-    return "El valor no puede ser negativo.";
+    return "El valor debe de ser positivo.";
 }

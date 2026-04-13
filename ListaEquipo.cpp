@@ -4,7 +4,7 @@
 
 #include "ListaEquipo.h"
 
-NodoEquipo* ListaEquipo::validarPos(int pos) {
+NodoEquipo* ListaEquipo::buscarPorPos(int pos) {
 	if (pos < 0 || pos >= tam) { return nullptr; }
 	actual = primero;
 	for (int i = 0; i < pos; i++) { actual = actual->sig; }
@@ -33,7 +33,6 @@ ListaEquipo::~ListaEquipo() {
 		NodoEquipo* temp = primero;
 		primero = primero->sig;
 		delete temp->getEquipo();
-		delete temp;
 		actual = primero;
 	}
 }
@@ -76,7 +75,7 @@ bool ListaEquipo::insertarPos(int pos, Equipo* c) {
         insertarFinal(c);
         return true;
     }
-    NodoEquipo* previo = validarPos(pos - 1);
+    NodoEquipo* previo = buscarPorPos(pos - 1);
     if (!previo) return false;
 
     NodoEquipo* nuevo = new NodoEquipo();
@@ -104,7 +103,7 @@ bool ListaEquipo::eliminarFinal() {
         return eliminarInicio();
     }
 
-    NodoEquipo* previo = validarPos(tam - 2);
+    NodoEquipo* previo = buscarPorPos(tam - 2);
     NodoEquipo* ultimo = previo->sig;
     previo->sig = nullptr;
     delete ultimo->getEquipo();
@@ -130,13 +129,13 @@ bool ListaEquipo::eliminarPos(int pos) {
     return true; // Encontrado
 }
 // Búsquedas
-NodoEquipo* ListaEquipo::buscarPorId(double prioridad) {
+NodoEquipo* ListaEquipo::buscarPorId(double id) {
     if (!primero) { return nullptr; }
 
     //Busca la prioridad double especifica
     actual = primero;
     while (actual) {
-        if (actual->getEquipo() && actual->getEquipo()->getPrioridad() == prioridad) {
+        if (actual->getEquipo() && actual->getEquipo()->getId() == id) {
             return actual;
         }
         actual = actual->sig;
