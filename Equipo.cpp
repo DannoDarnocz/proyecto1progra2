@@ -16,19 +16,34 @@ Equipo::Equipo(double crit, int diaMant) {
 }
 
 string Equipo::getId() const { return this->id; }
+int Equipo::getDiaMant() const { return this->diaMantenimiento; }
+float Equipo::getCriticidad() const { return this->criticidad; }
+
+Incidencia* Equipo::obtenerIncidencia(int pos) const {
+    NodoIncidencia* i = incidencias->buscarPorPos(pos);
+    if (!i) { return nullptr;}
+    return i->getIncidencia();
+}
+ListaIncidencia* Equipo::obtenerListaIncidencia() const { return incidencias; }
+
+void Equipo::setCriticidad(float criticidad) {
+    this->criticidad=criticidad;
+}
 
 int Equipo::cantidadIncidencias() const {
     return incidencias->getTam(); //Metodo retorna variable int tamaño
 }
 
+int Equipo::tiempoInactivo(int diaActual) const { return (diaActual-diaMantenimiento); }
+
 double Equipo::calcPrioridad(int diaActual) const {
-    return (criticidad*0.5)+((double)cantidadIncidencias()*0.3)+((diaActual-diaMantenimiento)*0.2);
+    return (criticidad*0.5)+((double)cantidadIncidencias()*0.3)+(tiempoInactivo(diaActual)*0.2);
 }
 
 void Equipo::aplicarDegradacion(int dia) {
     srand(time(NULL)); // generar nueva semilla
     double valor1 = (rand() % 100) + 1; //Rango 1-100 Crit
-    double valor2 = (rand() % 100) + 1; //Rango 1-100 Tiempo
     int valor3 = (rand() % 2); //Rango 0-2 Severidad Incidencia
-    incidencias->insertarInicio(this, valor3, dia);
+    criticidad+valor1 > 100 ? criticidad=100 : criticidad+=valor1;
+    if (criticidad > 0) { incidencias->insertarInicio(this, valor3, dia); }
 }

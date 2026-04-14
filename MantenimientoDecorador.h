@@ -4,9 +4,15 @@
 
 #ifndef PROYECTO_1_MANTENIMIENTODECORADOR_H
 #define PROYECTO_1_MANTENIMIENTODECORADOR_H
+#include "Mantenimiento.h"
 
 
-class MantenimientoDecorador {
+class MantenimientoDecorador : public Mantenimiento {
+protected:
+    Mantenimiento* mant;
+public:
+    MantenimientoDecorador(Mantenimiento* m);
+    virtual ~MantenimientoDecorador();
 };
 
 

@@ -4,9 +4,13 @@
 
 #ifndef PROYECTO_1_MANTENIMIENTOBASE_H
 #define PROYECTO_1_MANTENIMIENTOBASE_H
+#include "Mantenimiento.h"
 
 
-class MantenimientoBase {
+class MantenimientoBase : public Mantenimiento {
+public:
+    string descripcion() const override;
+    void arreglar(Equipo *e) override;
 };
 
 

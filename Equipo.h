@@ -18,7 +18,16 @@ protected:
 public:
     static int contador; //cuenta cuantos equipos se han creado
     Equipo(double crit, int diaMant);
+    //Gets
     string getId() const;
+    int getDiaMant() const;
+    float getCriticidad() const;
+    Incidencia* obtenerIncidencia(int pos) const;
+    ListaIncidencia* obtenerListaIncidencia() const;
+    //Sets
+    void setCriticidad(float criticidad);
+    //Generales
+    int tiempoInactivo(int diaActual) const; //Devuelve cantidad de tiempo sin mantenimiento
     int cantidadIncidencias() const; //Devuelve cantidad de incidencias existentes
     double calcPrioridad(int) const;    //Calcula su nivel de prioridad
     void aplicarDegradacion(int dia); //Aplica degradación al equipo en un dia especifico

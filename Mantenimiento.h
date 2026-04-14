@@ -4,9 +4,14 @@
 
 #ifndef PROYECTO_1_MANTENIMIENTO_H
 #define PROYECTO_1_MANTENIMIENTO_H
+#include "Equipo.h"
 
 
 class Mantenimiento {
+public:
+    virtual string descripcion() const = 0;
+    virtual void arreglar(Equipo* e) = 0;
+    virtual ~Mantenimiento();
 };
 
 

@@ -23,7 +23,13 @@ public:
     void insertarInicio(Equipo* e, int severidad, int dia); //Crea la Incidencia
 
     // Eliminaciones
+    bool eliminarInicio();  //Usado por EliminarPos
+    bool eliminarFinal();   //Usado por EliminarPos
+    bool eliminarPos(int pos);       // 0..tam
     bool eliminarTodos(); //Metodo que limpia la colección
+
+    //Buscar
+    NodoIncidencia* buscarPorPos(int pos);
 };
 
 

@@ -3,3 +3,11 @@
 //
 
 #include "MantenimientoDecorador.h"
+
+MantenimientoDecorador::MantenimientoDecorador(Mantenimiento *m) {
+    this->mant=m;
+}
+
+MantenimientoDecorador::~MantenimientoDecorador() {
+    delete mant;
+}
