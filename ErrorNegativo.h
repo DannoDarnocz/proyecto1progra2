@@ -5,11 +5,11 @@
 #ifndef PROYECTO_1_ERRORNEGATIVO_H
 #define PROYECTO_1_ERRORNEGATIVO_H
 
-#include <exception>
+#include "ErrorValor.h"
 
 using namespace std;
 
-class ErrorNegativo : public exception {
+class ErrorNegativo : public ErrorValor  {
     public:
     const char* what() const noexcept override;
 };

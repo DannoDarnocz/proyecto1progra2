@@ -6,6 +6,7 @@
 #include "ListaEquipo.h"
 #include "ErrorDecimal.h"
 #include "ErrorNegativo.h"
+#include "ErrorRango.h"
 #include "Laptop.h"
 #include "ComputadoraEscritorio.h"
 #include "ErrorArchivo.h"
@@ -46,53 +47,70 @@ int main()
         }
         else if (dato=="1")
         {
+            system("cls");
+            cin.clear();
             // agregar nuevo equipo a mano
             while (dato!="0")
             {
-                system("cls");
                 cout << "— AGREGAR NUEVO EQUIPO —"<<endl<<endl
                 << "Tipos de equipo: " << endl
                 << "   1. Laptop"<<endl
                 << "   2. Computadora de escritorio"<<endl
-                << "   3. Microscopio"<<endl
-                << "   4. Osciloscopio"<<endl
+                << "   3. Computadora All-In-One"<<endl
+                << "   4. Microscopio"<<endl
+                << "   5. Osciloscopio"<<endl
                 << "   0. Salir"<<endl<<endl
                  << "Escriba el numero de la opcion: ";
 
                 getline(cin,dato);
-                Equipo* nuevoEquipo = nullptr;
                 try
                 {
-                    switch (dato)
+                    switch (stoi(dato))
                     {
-                    case "1":
-                        nuevoEquipo = new Laptop;
+                    case 1:
+                        equipos->insertarInicio(new Laptop);
                         break;
-                    case "2":
-                        nuevoEquipo = new ComputadoraEscritorio;
+                    case 2:
+                        equipos->insertarInicio(new ComputadoraEscritorio);
                         break;
-                    case "3":
-                        nuevoEquipo = new Microscopio;
+                    case 3:
+                        equipos->insertarInicio(new AllInOne);
                         break;
-                    case "4":
-                        nuevoEquipo = new Osciloscopio;
+                    case 4:
+                        equipos->insertarInicio(new Microscopio);
+                        break;
+                    case 5:
+                        equipos->insertarInicio(new Osciloscopio);
                         break;
                     }
+                    system("cls");
+                    cout<< "Equipo agregado exitosamente.";
+                }
+                catch (ErrorRango& e)
+                {
+                    cout << e.what() << " (de 0 a 30).";
+                }
+                catch (ErrorValor& e)
+                {
+                    cout << e.what();
                 }
             }
         }
     }
 
+    // ordenar antes de
+    equipos->ordenarPrioridad();
+
     // Sorteo inicial de 300 incidencias
     int dia=0;
-    sortearIncidencias(equipos,300,dia);
+    //sortearIncidencias(equipos,300,dia);
 
 
     for (dia=1;dia<=30;dia++)
     {
 
 
-        equipos.aplicarDegradacionTodos();
+        //equipos.aplicarDegradacionTodos();
         stringstream resultado;
 
 
@@ -110,7 +128,7 @@ int main()
                 throw ErrorArchivo();
             }
 
-            f << resultado;
+            f << resultado.str();
         }
         catch (ErrorArchivo& e)
         {

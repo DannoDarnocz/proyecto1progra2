@@ -26,10 +26,6 @@ add_executable(Proyecto_1 main.cpp
         Mantenimiento.h
         MantenimientoBase.cpp
         MantenimientoBase.h
-        Actualizacion.cpp
-        Actualizacion.h
-        CambioComponentes.cpp
-        CambioComponentes.h
         MantenimientoDecorador.cpp
         MantenimientoDecorador.h
         ErrorArchivo.cpp
@@ -51,4 +47,8 @@ add_executable(Proyecto_1 main.cpp
         MantenimientoSoftware.cpp
         MantenimientoSoftware.h
         MantenimientoCambio.cpp
-        MantenimientoCambio.h)
+        MantenimientoCambio.h
+        ErrorRango.h
+        ErrorRango.cpp
+        ErrorValor.cpp
+        ErrorValor.h)

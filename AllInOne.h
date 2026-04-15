@@ -9,6 +9,7 @@
 
 class AllInOne : public Equipo {
 public:
+    AllInOne();
     AllInOne(double crit, double tiempo);
     string getTipo() const;
 };

@@ -5,8 +5,11 @@
 #ifndef PROYECTO_1_LISTAINCIDENCIA_H
 #define PROYECTO_1_LISTAINCIDENCIA_H
 #include "NodoIncidencia.h"
-#include "Incidencia.h"
 #include "Equipo.h"
+
+class Equipo;
+class Incidencia;
+class NodoIncidencia;
 
 class ListaIncidencia {
 private:

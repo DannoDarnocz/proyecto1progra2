@@ -32,7 +32,7 @@ public:
     bool eliminarPos(int pos);       // 0..tam
 
     // Búsquedas
-    NodoEquipo* buscarPorId(double prioridad); //Busqueda Binaria por prioridad
+    NodoEquipo* buscarPorId(string); //Busqueda Binaria por prioridad
     NodoEquipo* buscarPorPos(int); // Busca por posición
 
     //Ordenamiento

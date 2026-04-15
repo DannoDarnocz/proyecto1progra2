@@ -6,8 +6,11 @@
 #define PROYECTO_1_EQUIPO_H
 #include <iostream>
 #include "ListaIncidencia.h"
+#include "Incidencia.h"
 using namespace std;
 
+class ListaIncidencia;
+class Incidencia;
 
 class Equipo {
 protected:

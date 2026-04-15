@@ -3,16 +3,23 @@
 //
 
 #include "Equipo.h"
+#include "ErrorRango.h"
 #include "ctime"
 
 int Equipo::contador = 0;
 
 Equipo::Equipo(double crit, int diaMant) {
-    contador++;
+    this->incidencias = new ListaIncidencia(); //Lista personalizada para incidencias
     this->id=to_string(contador);
     this->criticidad=crit;
-    this->diaMantenimiento=diaMant;
-    this->incidencias = new ListaIncidencia(); //Lista personalizada para incidencias
+    if (diaMant>=0 && diaMant<=30)
+    {
+        this->diaMantenimiento=diaMant;
+    }
+    else
+    {
+        throw ErrorRango();
+    }
 }
 
 string Equipo::getId() const { return this->id; }

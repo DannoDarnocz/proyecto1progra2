@@ -9,6 +9,7 @@
 
 class ComputadoraEscritorio : public Equipo {
 public:
+    ComputadoraEscritorio();
     ComputadoraEscritorio(double crit, double tiempo);
     string getTipo() const;
 };

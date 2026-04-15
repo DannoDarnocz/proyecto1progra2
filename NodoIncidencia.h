@@ -6,6 +6,8 @@
 #define PROYECTO_1_NODOINCIDENCIA_H
 #include "Incidencia.h"
 
+class Incidencia;
+
 class NodoIncidencia {
 private:
     Incidencia* miIncidencia;

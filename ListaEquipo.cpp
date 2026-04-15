@@ -3,6 +3,7 @@
 //
 
 #include "ListaEquipo.h"
+#include "ErrorValor.h"
 
 NodoEquipo* ListaEquipo::buscarPorPos(int pos) {
 	if (pos < 0 || pos >= tam) { return nullptr; }
@@ -129,7 +130,7 @@ bool ListaEquipo::eliminarPos(int pos) {
     return true; // Encontrado
 }
 // Búsquedas
-NodoEquipo* ListaEquipo::buscarPorId(double id) {
+NodoEquipo* ListaEquipo::buscarPorId(string id) {
     if (!primero) { return nullptr; }
 
     //Busca la prioridad double especifica
@@ -142,6 +143,7 @@ NodoEquipo* ListaEquipo::buscarPorId(double id) {
     }
     return nullptr;
 }
+
 
 //Ordenamientos
 bool ListaEquipo::ordenarPrioridad() {
