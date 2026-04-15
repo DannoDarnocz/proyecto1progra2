@@ -26,6 +26,13 @@ Incidencia* Equipo::obtenerIncidencia(int pos) const {
 }
 ListaIncidencia* Equipo::obtenerListaIncidencia() const { return incidencias; }
 
+void Equipo::eliminarIncidencias()
+{
+    // solo Equipo conoce incidencias, se puede borrar y crear una nueva, y listp
+    if (incidencias) delete incidencias;
+    incidencias = new ListaIncidencia();
+}
+
 void Equipo::setCriticidad(float criticidad) {
     this->criticidad=criticidad;
 }

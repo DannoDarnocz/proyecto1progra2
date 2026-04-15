@@ -47,4 +47,8 @@ add_executable(Proyecto_1 main.cpp
         Osciloscopio.cpp
         Osciloscopio.h
         Microscopio.cpp
-        Microscopio.h)
+        Microscopio.h
+        MantenimientoSoftware.cpp
+        MantenimientoSoftware.h
+        MantenimientoCambio.cpp
+        MantenimientoCambio.h)

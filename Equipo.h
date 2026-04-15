@@ -24,6 +24,7 @@ public:
     float getCriticidad() const;
     Incidencia* obtenerIncidencia(int pos) const;
     ListaIncidencia* obtenerListaIncidencia() const;
+    void eliminarIncidencias();
     //Sets
     void setCriticidad(float criticidad);
     //Generales

@@ -9,5 +9,5 @@ MantenimientoDecorador::MantenimientoDecorador(Mantenimiento *m) {
 }
 
 MantenimientoDecorador::~MantenimientoDecorador() {
-    delete mant;
+    if (mant) delete mant;
 }
