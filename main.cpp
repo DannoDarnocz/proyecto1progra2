@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <conio.h>
+#include <iomanip>
+#include <limits>
 #include "cabeceras/equipos/AllInOne.h"
 #include "cabeceras/listas/ListaEquipo.h"
 #include "cabeceras/excepciones/ErrorDecimal.h"
@@ -17,47 +19,44 @@
 #include "cabeceras/excepciones/ErrorArchivoLectura.h"
 using namespace std;
 
-void cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
 void sortearIncidencias(ListaEquipo*,int,int);
 void esperarEnter(bool = true);
 void limpiarPantalla();
+int pedirDato(int,int,bool=true);
+void limpiarBufer();
 
 struct Menu
 {
-    void principal(int equipos, int incidencias)
+    int principal(int equipos, int incidencias)
     {
         cout << "- SISTEMA INTELIGENTE DE MANTENIMIENTO -"<<endl<<endl
-        << "Equipos cargados en el sistema:" << equipos <<endl
-        << "Incidencias cargadas en el sistema:" << incidencias <<endl	<<endl
+        << "Equipos cargados en el sistema: " << equipos <<endl
+        << "Incidencias cargadas en el sistema: " << incidencias <<endl	<<endl
         << "   1. Cargar datos desde archivos"<<endl
         << "   2. Agregar equipos manualmente"<<endl
         << "   3. Agregar incidencias manualmente"<<endl
         << "   4. Ver lista de equipos"<<endl
         << "   5. Ver lista de incidencias"<<endl
-        << "   6. Ejecutar simulacion"<<endl<<endl
-         << "Escriba el numero de la opcion: ";
+        << "   6. Ejecutar simulacion"<<endl<<endl;
+        return pedirDato(1,6);
     }
 };
 
 int main()
 {
-
     ListaEquipo* equipos = new ListaEquipo();
     ListaIncidencia* incidencias = new ListaIncidencia();
 
     // Menu principal
     bool repetir = true;
-    string dato;
+    int dato;
 
     while (repetir)
     {
         Menu menu;
-        menu.principal(equipos->getTam(),incidencias->getTam());
+        dato = menu.principal(equipos->getTam(),incidencias->getTam());
 
-        getline(cin,dato);
-        if (dato.empty()||stoi(dato)<1 ||stoi(dato) >6) continue; // volver a tirarle el menu si ingresa un dato incorrecto
-
-        switch (stoi(dato))
+        switch (dato)
         {
             case 1:
                 LectorEquipos lectorEquipos;
@@ -65,35 +64,34 @@ int main()
 
                 try{
                     incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
-                    cout << incidencias->toString();
+                    cout << "Se han cargado los datos con exito." << endl;
                 }
                 catch (ErrorArchivoLectura& e)
                 {
                     cout << e.what() << endl;
                 }
-                esperarEnter(true);
+                esperarEnter();
                 break;
             case 2:
                 limpiarPantalla();
                 // agregar nuevo equipo a mano
-                while (dato!="0")
+                while (true)
                 {
-                    cout << "— AGREGAR NUEVO EQUIPO —"<<endl<<endl
+                    cout << "- AGREGAR NUEVO EQUIPO -"<<endl<<endl
                     << "Tipos de equipo: " << endl
                     << "   1. Laptop"<<endl
                     << "   2. Computadora de escritorio"<<endl
                     << "   3. Computadora All-In-One"<<endl
                     << "   4. Microscopio"<<endl
                     << "   5. Osciloscopio"<<endl
-                    << "   0. Salir"<<endl<<endl
-                     << "Escriba el numero de la opcion: ";
+                    << "   0. Salir"<<endl<<endl;
+                    dato = pedirDato(0,5);
 
-                    getline(cin,dato);
-                    if (dato.empty()||stoi(dato)<0 ||stoi(dato) >5) continue;
+                    if (dato==0) break;
 
                     try
                     {
-                        switch (stoi(dato))
+                        switch (dato)
                         {
                         case 1:
                             equipos->insertarInicio(new Laptop);
@@ -112,14 +110,37 @@ int main()
                             break;
                         }
                         cout<< "Equipo agregado exitosamente."<<endl;
+                        esperarEnter();
                     }
                     catch (ErrorValor& e)
                     {
-                        cout << e.what();
+                        cout << e.what()  << endl;
                     }
                 }
                 esperarEnter();
                 break;
+            case 3: // agregar incidencia
+                while (true){
+                    try
+                    {
+                        string severidad;
+                        int s;
+
+                        cout << "Se va a crear una incidencia con ID " << incidencias->getTam()<< endl
+                        << "Ingrese la severidad de la incidencia (0- salir, 1- baja, 2- media, 3- alta): ";
+                        dato = pedirDato(0,3,false);
+                        if (dato==0) break;
+
+                        s=dato-1; // uno menor a lo que se le muestra el usuario
+                        Incidencia* nuevaIncidencia = new Incidencia(nullptr,s,0);
+                        incidencias->insertarFinal(nuevaIncidencia);
+                        cout << "Se ha creado la incidencia con exito. " << endl << endl;
+                    } catch (ErrorValor& e)
+                    {
+                        cout << e.what() << endl;
+                    }
+                }
+            break;
             case 4: // lista equipos
                 cout << equipos->toString()<<endl;
                 esperarEnter();
@@ -244,4 +265,34 @@ void esperarEnter(bool msg)
 void limpiarPantalla()
 {
     // implementar
+}
+
+int pedirDato(int min, int max, bool mostrarTexto) {
+    int opcion;
+    if (mostrarTexto) {
+        cout << "Ingrese la opcion deseada: ";
+    }
+
+    // Repetir hasta que ingrese una opcion valida
+    while (true) {
+        cin >> opcion;
+        // verificar que sea valido
+        if (cin.fail()) {
+            limpiarBufer();
+            cout << "Entrada invalida. Por favor ingrese un numero: ";
+            continue;
+        }
+        if (opcion < min || opcion > max) {
+            cout << "Opcion fuera de rango. Ingrese un numero entre " << min << " y " << max << ": ";
+            continue;
+        }
+        limpiarBufer();
+        return opcion;
+    }
+}
+
+void limpiarBufer() {
+    cin.clear();
+    // "numeric_limits" se usa para indicar la mayor cantidad posible de caracteres a ignorar en el bufer
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
