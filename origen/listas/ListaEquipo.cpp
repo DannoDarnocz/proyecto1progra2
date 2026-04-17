@@ -165,6 +165,7 @@ void ListaEquipo::degradarTodos(int dia)
 
 // toString
 string ListaEquipo::toString() {
+    if (tam==0) return "No hay equipos registrados";
     stringstream s;
     actual = primero;
     while (actual) {

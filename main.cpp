@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <conio.h>
 #include "cabeceras/equipos/AllInOne.h"
 #include "cabeceras/listas/ListaEquipo.h"
 #include "cabeceras/excepciones/ErrorDecimal.h"
@@ -18,25 +19,31 @@ using namespace std;
 
 void cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
 void sortearIncidencias(ListaEquipo*,int,int);
+void esperarEnter(bool = true);
+void limpiarPantalla();
+
+struct Menu
+{
+    void principal(int equipos, int incidencias)
+    {
+        cout << "- SISTEMA INTELIGENTE DE MANTENIMIENTO -"<<endl<<endl
+        << "Equipos cargados en el sistema:" << equipos <<endl
+        << "Incidencias cargadas en el sistema:" << incidencias <<endl	<<endl
+        << "   1. Cargar datos desde archivos"<<endl
+        << "   2. Agregar equipos manualmente"<<endl
+        << "   3. Agregar incidencias manualmente"<<endl
+        << "   4. Ver lista de equipos"<<endl
+        << "   5. Ver lista de incidencias"<<endl
+        << "   6. Ejecutar simulacion"<<endl<<endl
+         << "Escriba el numero de la opcion: ";
+    }
+};
 
 int main()
 {
-    LectorEquipos lectorEquipos;
-    LectorIncidencias lectorIncidencias;
 
     ListaEquipo* equipos = new ListaEquipo();
     ListaIncidencia* incidencias = new ListaIncidencia();
-
-    try{
-        incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
-        cout << incidencias->toString();
-    }
-    catch (ErrorArchivoLectura& e)
-    {
-        cout << e.what() << endl
-        << "Se continuara el sistema sin cargar datos.";
-    }
-
 
     // Menu principal
     bool repetir = true;
@@ -44,71 +51,90 @@ int main()
 
     while (repetir)
     {
-        system("cls");
-        cout << "- SISTEMA INTELIGENTE DE MANTENIMIENTO -"<<endl<<endl
-        << "Equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
-        << "Incidencias cargadas en el sistema:" << incidencias->getTam() <<endl		// por defecto son 300
-        << "   1. Ingresar nuevos dispositivos"<<endl
-        << "   2. Ver lista de dispositivos"<<endl
-        << "   3. Ejecutar simulacion"<<endl<<endl
-         << "Escriba el numero de la opcion: ";
+        Menu menu;
+        menu.principal(equipos->getTam(),incidencias->getTam());
 
         getline(cin,dato);
-        if (dato=="3")
-        {
-            repetir = false;
-        }
-        else if (dato=="2")
-        {
-            
-        }
-        else if (dato=="1")
-        {
-            system("cls");
-            cin.clear();
-            // agregar nuevo equipo a mano
-            while (dato!="0")
-            {
-                cout << "— AGREGAR NUEVO EQUIPO —"<<endl<<endl
-                << "Tipos de equipo: " << endl
-                << "   1. Laptop"<<endl
-                << "   2. Computadora de escritorio"<<endl
-                << "   3. Computadora All-In-One"<<endl
-                << "   4. Microscopio"<<endl
-                << "   5. Osciloscopio"<<endl
-                << "   0. Salir"<<endl<<endl
-                 << "Escriba el numero de la opcion: ";
+        if (dato.empty()||stoi(dato)<1 ||stoi(dato) >6) continue; // volver a tirarle el menu si ingresa un dato incorrecto
 
-                getline(cin,dato);
-                try
+        switch (stoi(dato))
+        {
+            case 1:
+                LectorEquipos lectorEquipos;
+                LectorIncidencias lectorIncidencias;
+
+                try{
+                    incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
+                    cout << incidencias->toString();
+                }
+                catch (ErrorArchivoLectura& e)
                 {
-                    switch (stoi(dato))
+                    cout << e.what() << endl;
+                }
+                esperarEnter(true);
+                break;
+            case 2:
+                limpiarPantalla();
+                // agregar nuevo equipo a mano
+                while (dato!="0")
+                {
+                    cout << "— AGREGAR NUEVO EQUIPO —"<<endl<<endl
+                    << "Tipos de equipo: " << endl
+                    << "   1. Laptop"<<endl
+                    << "   2. Computadora de escritorio"<<endl
+                    << "   3. Computadora All-In-One"<<endl
+                    << "   4. Microscopio"<<endl
+                    << "   5. Osciloscopio"<<endl
+                    << "   0. Salir"<<endl<<endl
+                     << "Escriba el numero de la opcion: ";
+
+                    getline(cin,dato);
+                    if (dato.empty()||stoi(dato)<0 ||stoi(dato) >5) continue;
+
+                    try
                     {
-                    case 1:
-                        equipos->insertarInicio(new Laptop);
-                        break;
-                    case 2:
-                        equipos->insertarInicio(new ComputadoraEscritorio);
-                        break;
-                    case 3:
-                        equipos->insertarInicio(new AllInOne);
-                        break;
-                    case 4:
-                        equipos->insertarInicio(new Microscopio);
-                        break;
-                    case 5:
-                        equipos->insertarInicio(new Osciloscopio);
-                        break;
+                        switch (stoi(dato))
+                        {
+                        case 1:
+                            equipos->insertarInicio(new Laptop);
+                            break;
+                        case 2:
+                            equipos->insertarInicio(new ComputadoraEscritorio);
+                            break;
+                        case 3:
+                            equipos->insertarInicio(new AllInOne);
+                            break;
+                        case 4:
+                            equipos->insertarInicio(new Microscopio);
+                            break;
+                        case 5:
+                            equipos->insertarInicio(new Osciloscopio);
+                            break;
+                        }
+                        cout<< "Equipo agregado exitosamente."<<endl;
                     }
-                    system("cls");
-                    cout<< "Equipo agregado exitosamente.";
+                    catch (ErrorValor& e)
+                    {
+                        cout << e.what();
+                    }
                 }
-                catch (ErrorValor& e)
-                {
-                    cout << e.what();
-                }
-            }
+                esperarEnter();
+                break;
+            case 4: // lista equipos
+                cout << equipos->toString()<<endl;
+                esperarEnter();
+                break;
+            case 5: // lista incidentes
+                cout << incidencias->toString()<<endl;
+                esperarEnter();
+                break;
+            case 6: // ejecutar silumacion
+                repetir=false;
+                break;
+
         }
+
+        limpiarPantalla();
     }
 
     // ordenar antes de
@@ -209,3 +235,13 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
 
 }*/
 
+void esperarEnter(bool msg)
+{
+    if (msg) cout << "Presione ENTER para continuar.";
+    cin.get();
+}
+
+void limpiarPantalla()
+{
+    // implementar
+}

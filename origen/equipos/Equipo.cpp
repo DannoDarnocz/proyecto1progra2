@@ -20,6 +20,7 @@ Equipo::Equipo(double crit, int diaMant) {
     {
         throw ErrorRango("El dia de mantenimiento debe estar entre 0 y 30");
     }
+    contador++;
 }
 
 string Equipo::getId() const { return this->id; }

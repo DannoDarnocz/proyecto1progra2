@@ -109,6 +109,7 @@ bool ListaIncidencia::eliminarPos(int pos) {
 
 // toString
 string ListaIncidencia::toString(){
+    if (tam==0) return "No hay incidencias registradas";
     stringstream s;
     actual = primero;
     while (actual) {
