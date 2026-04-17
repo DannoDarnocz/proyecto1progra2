@@ -28,7 +28,7 @@ string Incidencia::getSeveridadString() const
         case 2:
             return "Alta";
         default:
-            throw ErrorRango("La severidad de la incidencia no está entre 0 y 2");
+            throw ErrorRango("La severidad de la incidencia no esta entre 0 y 2");
     }
 }
 

@@ -32,9 +32,9 @@ public:
     bool eliminarFinal();   //Usado por EliminarPos
     bool eliminarPos(int pos);       // 0..tam
 
-    // Búsquedas
+    // Busquedas
     NodoEquipo* buscarPorId(string); //Busqueda Binaria por prioridad
-    NodoEquipo* buscarPorPos(int); // Busca por posición
+    NodoEquipo* buscarPorPos(int); // Busca por posicion
 
     //Ordenamiento
     bool ordenarPrioridad();

@@ -18,7 +18,7 @@ class Equipo {
 protected:
     static int contador; //cuenta cuantos equipos se han creado
     string id;
-    int diaMantenimiento; // día en el cual se le hizo el último mantenimiento
+    int diaMantenimiento; // dia en el cual se le hizo el ultimo mantenimiento
     float criticidad;
     ListaIncidencia* incidencias;
 public:
@@ -36,7 +36,7 @@ public:
     int tiempoInactivo(int diaActual) const; //Devuelve cantidad de tiempo sin mantenimiento
     int cantidadIncidencias() const; //Devuelve cantidad de incidencias existentes
     double calcPrioridad(int) const;    //Calcula su nivel de prioridad
-    void aplicarDegradacion(int dia); //Aplica degradación al equipo en un dia especifico
+    void aplicarDegradacion(int dia); //Aplica degradacion al equipo en un dia especifico
     virtual string getTipo() const = 0; //Devuelve tipo de las hijas
     virtual string toString() const; //Devuelve todos los atributos
 };

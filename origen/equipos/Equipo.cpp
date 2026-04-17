@@ -45,7 +45,7 @@ void Equipo::setCriticidad(float criticidad) {
 }
 
 int Equipo::cantidadIncidencias() const {
-    return incidencias->getTam(); //Metodo retorna variable int tamaño
+    return incidencias->getTam(); //Metodo retorna variable int tamano
 }
 
 int Equipo::tiempoInactivo(int diaActual) const { return (diaActual-diaMantenimiento); }

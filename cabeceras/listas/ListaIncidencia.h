@@ -32,7 +32,7 @@ public:
     bool eliminarInicio();  //Usado por EliminarPos
     bool eliminarFinal();   //Usado por EliminarPos
     bool eliminarPos(int pos);       // 0..tam
-    bool eliminarTodos(); //Metodo que limpia la colección
+    bool eliminarTodos(); //Metodo que limpia la coleccion
 
     //Buscar
     NodoIncidencia* buscarPorPos(int pos);

@@ -129,7 +129,7 @@ bool ListaEquipo::eliminarPos(int pos) {
     --tam;
     return true; // Encontrado
 }
-// Búsquedas
+// Busquedas
 NodoEquipo* ListaEquipo::buscarPorId(string id) {
     if (!primero) { return nullptr; }
 

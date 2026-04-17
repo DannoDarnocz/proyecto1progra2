@@ -33,12 +33,16 @@ void ListaIncidencia::insertarFinal(Incidencia* i) {
     if (!i) throw ErrorPuntero("Incidencia a insertar en lista es nullptr");
     NodoIncidencia* nuevo = new NodoIncidencia();
     nuevo->setIncidencia(i);
-    actual = primero;
-    while (actual->getSig())
-    {
-        actual=actual->getSig();
+
+    if (!primero) {
+        primero = nuevo;
+    } else {
+        actual = primero;
+        while (actual->getSig()) {
+            actual = actual->getSig();
+        }
+        actual->sig = nuevo;
     }
-    actual->sig = nuevo;
     ++tam;
 }
 

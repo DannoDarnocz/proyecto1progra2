@@ -34,19 +34,20 @@ int main()
     catch (ErrorArchivoLectura& e)
     {
         cout << e.what() << endl
-        << "Se continuará el sistema sin cargar datos.";
+        << "Se continuara el sistema sin cargar datos.";
     }
 
 
-    // Menú principal
+    // Menu principal
     bool repetir = true;
     string dato;
 
     while (repetir)
     {
         system("cls");
-        cout << "— SISTEMA INTELIGENTE DE MANTENIMIENTO —"<<endl<<endl
-        << "# de equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
+        cout << "- SISTEMA INTELIGENTE DE MANTENIMIENTO -"<<endl<<endl
+        << "Equipos cargados en el sistema:" << equipos->getTam() <<endl		// por defecto son 100
+        << "Incidencias cargadas en el sistema:" << incidencias->getTam() <<endl		// por defecto son 300
         << "   1. Ingresar nuevos dispositivos"<<endl
         << "   2. Ver lista de dispositivos"<<endl
         << "   3. Ejecutar simulacion"<<endl<<endl
@@ -202,7 +203,7 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
         cout << e.what() << endl;
     }
     catch (exception& e) {
-        cout << "Ocurrió un error inesperado al sortear las incidencias." << endl;
+        cout << "Ocurrio un error inesperado al sortear las incidencias." << endl;
     }
 
 
