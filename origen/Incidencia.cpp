@@ -1,0 +1,48 @@
+//
+// Created by axela on 9/4/2026.
+//
+
+#include "../cabeceras/Incidencia.h"
+#include "../cabeceras/excepciones/ErrorRango.h"
+
+int Incidencia::contador = 0;
+
+Incidencia::Incidencia(Equipo* e, int severidad, int dia):equipo(e),dia(dia)
+{
+    if (severidad>2 || severidad<0) throw ErrorRango("La severidad debe de estar entre 0 y 2");
+    this->severidad = severidad;
+    id = to_string(contador);
+    contador++;
+};
+
+int Incidencia::getSeveridad() const { return severidad; }
+
+string Incidencia::getSeveridadString() const
+{
+    switch (severidad)
+    {
+        case 0:
+            return "Baja";
+        case 1:
+            return "Media";
+        case 2:
+            return "Alta";
+        default:
+            throw ErrorRango("La severidad de la incidencia no está entre 0 y 2");
+    }
+}
+
+string Incidencia::toString() const {
+    stringstream s;
+
+    s << "ID: " << id << " | Severidad: " << getSeveridadString() << " | Dia: " << dia<< " | Equipo: " ;
+
+    if (equipo) {
+        s << equipo->getId();
+    }
+    else{
+        s << "No asignado";
+    }
+    return s.str();
+}
+

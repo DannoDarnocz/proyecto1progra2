@@ -1,17 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include "AllInOne.h"
-#include "ListaEquipo.h"
-#include "ErrorDecimal.h"
-#include "ErrorNegativo.h"
-#include "ErrorRango.h"
-#include "Laptop.h"
-#include "ComputadoraEscritorio.h"
-#include "ErrorArchivo.h"
-#include "Osciloscopio.h"
-#include "Microscopio.h"
+#include "cabeceras/equipos/AllInOne.h"
+#include "cabeceras/listas/ListaEquipo.h"
+#include "cabeceras/excepciones/ErrorDecimal.h"
+#include "cabeceras/excepciones/ErrorNegativo.h"
+#include "cabeceras/excepciones/ErrorRango.h"
+#include "cabeceras/equipos/Laptop.h"
+#include "cabeceras/equipos/ComputadoraEscritorio.h"
+#include "cabeceras/excepciones/ErrorArchivo.h"
+#include "cabeceras/equipos/Osciloscopio.h"
+#include "cabeceras/equipos/Microscopio.h"
+#include "cabeceras/archivos/LectorEquipos.h"
+#include "cabeceras/archivos/LectorIncidencias.h"
+#include "cabeceras/excepciones/ErrorArchivoLectura.h"
 using namespace std;
 
 void cargarDatosQuemados(ListaEquipo* lista); // 100 equipos generados automaticamente
@@ -19,8 +21,22 @@ void sortearIncidencias(ListaEquipo*,int,int);
 
 int main()
 {
+    LectorEquipos lectorEquipos;
+    LectorIncidencias lectorIncidencias;
+
     ListaEquipo* equipos = new ListaEquipo();
-    cargarDatosQuemados(equipos);
+    ListaIncidencia* incidencias = new ListaIncidencia();
+
+    try{
+        incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
+        cout << incidencias->toString();
+    }
+    catch (ErrorArchivoLectura& e)
+    {
+        cout << e.what() << endl
+        << "Se continuará el sistema sin cargar datos.";
+    }
+
 
     // Menú principal
     bool repetir = true;
@@ -86,10 +102,6 @@ int main()
                     system("cls");
                     cout<< "Equipo agregado exitosamente.";
                 }
-                catch (ErrorRango& e)
-                {
-                    cout << e.what() << " (de 0 a 30).";
-                }
                 catch (ErrorValor& e)
                 {
                     cout << e.what();
@@ -108,8 +120,6 @@ int main()
 
     for (dia=1;dia<=30;dia++)
     {
-
-
         //equipos.aplicarDegradacionTodos();
         stringstream resultado;
 
@@ -134,9 +144,11 @@ int main()
         {
             cout << e.what() << endl;
         }
-}
-}
 
+    }
+    return 0;
+}
+/*
 void cargarDatosQuemados(ListaEquipo* l)
 {
     Equipo* equipoNuevo = nullptr;
@@ -193,5 +205,6 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
         cout << "Ocurrió un error inesperado al sortear las incidencias." << endl;
     }
 
-}
+
+}*/
 
