@@ -11,7 +11,7 @@ using namespace std;
 
 class LectorEquipos {
 public:
-    ListaEquipo* leerArchivo(string) const;
+    ListaEquipo* leerArchivo(string, ListaEquipo*) const;
 };
 
 

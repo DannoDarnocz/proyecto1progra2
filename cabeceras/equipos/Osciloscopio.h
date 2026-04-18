@@ -9,7 +9,7 @@
 class Osciloscopio : public Equipo
 {
 public:
-    Osciloscopio();
+    Osciloscopio(bool esPrototipo = false);
     Osciloscopio(double crit, double tiempo);
     string getTipo() const;
     string getPrefix() const override;

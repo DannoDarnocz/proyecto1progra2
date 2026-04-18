@@ -50,6 +50,7 @@ int main()
     // Menu principal
     bool repetir = true;
     int dato;
+    bool cargado = false;
 
     while (repetir)
     {
@@ -59,19 +60,22 @@ int main()
         switch (dato)
         {
             case 1:
-                LectorEquipos lectorEquipos;
-                LectorIncidencias lectorIncidencias;
+                if (!cargado) {
+                    LectorEquipos lectorEquipos;
+                    LectorIncidencias lectorIncidencias;
 
-                try{
-                    equipos = lectorEquipos.leerArchivo("equipos.txt");
-                    incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
-                    cout << "Se han cargado los datos con exito." << endl;
-                }
-                catch (ErrorArchivoLectura& e)
-                {
-                    cout << e.what() << endl;
-                }
-                esperarEnter();
+                    try{
+                        equipos = lectorEquipos.leerArchivo("../equipos.txt", equipos);
+                        incidencias = lectorIncidencias.leerArchivo("../incidencias.txt",incidencias);
+                        cout << "Se han cargado los datos con exito." << endl;
+                        cargado = true;
+                    }
+                    catch (ErrorArchivoLectura& e)
+                    {
+                        cout << e.what() << endl;
+                    }
+                    esperarEnter();
+                } else { cout << "Los datos ya han sido cargados" << endl; esperarEnter(); }
                 break;
             case 2:
                 limpiarPantalla();
@@ -95,19 +99,19 @@ int main()
                         switch (dato)
                         {
                         case 1:
-                            equipos->insertarInicio(new Laptop);
+                            equipos->insertarFinal(new Laptop);
                             break;
                         case 2:
-                            equipos->insertarInicio(new ComputadoraEscritorio);
+                            equipos->insertarFinal(new ComputadoraEscritorio);
                             break;
                         case 3:
-                            equipos->insertarInicio(new AllInOne);
+                            equipos->insertarFinal(new AllInOne);
                             break;
                         case 4:
-                            equipos->insertarInicio(new Microscopio);
+                            equipos->insertarFinal(new Microscopio);
                             break;
                         case 5:
-                            equipos->insertarInicio(new Osciloscopio);
+                            equipos->insertarFinal(new Osciloscopio);
                             break;
                         }
                         cout<< "Equipo agregado exitosamente."<<endl;

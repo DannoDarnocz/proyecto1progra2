@@ -19,6 +19,7 @@ private:
     int tam;
 public:
     ListaIncidencia();
+    ~ListaIncidencia();
     // Gets
     NodoIncidencia* getPrimero() const;
     int getTam() const;

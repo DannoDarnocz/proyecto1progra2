@@ -10,7 +10,7 @@
 class Microscopio : public Equipo
 {
 public:
-    Microscopio();
+    Microscopio(bool esPrototipo = false);
     Microscopio(double crit, double tiempo);
     string getTipo() const;
     string getPrefix() const override;

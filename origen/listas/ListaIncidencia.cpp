@@ -7,6 +7,16 @@
 
 ListaIncidencia::ListaIncidencia() : primero(nullptr), actual(nullptr), tam(0) {}
 
+ListaIncidencia::~ListaIncidencia() {
+    while (primero) {
+        NodoIncidencia* temp = primero;
+        primero = primero->sig;
+        delete temp->getIncidencia();
+        delete temp;
+        actual = primero;
+    }
+}
+
 NodoIncidencia* ListaIncidencia::getPrimero() const { return primero; }
 int ListaIncidencia::getTam() const { return tam; }
 

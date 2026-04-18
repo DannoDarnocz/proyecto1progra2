@@ -9,7 +9,7 @@
 
 class Laptop : public Equipo {
 public:
-    Laptop();
+    Laptop(bool esPrototipo = false);
     Laptop(double crit, double tiempo);
     string getTipo() const;
     string getPrefix() const override;

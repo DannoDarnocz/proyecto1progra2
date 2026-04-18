@@ -9,7 +9,7 @@
 
 class ComputadoraEscritorio : public Equipo {
 public:
-    ComputadoraEscritorio();
+    ComputadoraEscritorio(bool esPrototipo = false);
     ComputadoraEscritorio(double crit, double tiempo);
     string getTipo() const;
     string getPrefix() const override;

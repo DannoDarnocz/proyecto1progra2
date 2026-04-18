@@ -12,7 +12,7 @@ using namespace std;
 class LectorIncidencias
 {
 public:
-    ListaIncidencia* leerArchivo(string) const;
+    ListaIncidencia* leerArchivo(string, ListaIncidencia*) const;
 };
 
 

@@ -3,24 +3,34 @@
 //
 
 #include "../../cabeceras/equipos/Equipo.h"
+
+#include <iomanip>
+
 #include "../../cabeceras/excepciones/ErrorRango.h"
 #include "ctime"
 
 int Equipo::contador = 0;
 
-Equipo::Equipo(double crit, int diaMant) {
-    this->incidencias = new ListaIncidencia(); //Lista personalizada para incidencias
-    this->id=to_string(contador);
-    this->criticidad=crit;
-    if (diaMant>=0 && diaMant<=30)
-    {
-        this->diaMantenimiento=diaMant;
+Equipo::Equipo(double crit, int diaMant, bool esProto) {
+    if (esProto) {
+        id="-1";
+        incidencias = nullptr;
+        criticidad=0;
+        diaMantenimiento=0;
+    } else {
+        this->incidencias = new ListaIncidencia(); //Lista personalizada para incidencias
+        this->id="0";
+        this->criticidad=crit;
+        if (diaMant>=0 && diaMant<=30)
+        {
+            this->diaMantenimiento=diaMant;
+        }
+        else
+        {
+            throw ErrorRango("El dia de mantenimiento debe estar entre 0 y 30");
+        }
+        contador++;
     }
-    else
-    {
-        throw ErrorRango("El dia de mantenimiento debe estar entre 0 y 30");
-    }
-    contador++;
 }
 
 string Equipo::getId() const { return this->id; }
@@ -50,7 +60,7 @@ int Equipo::cantidadIncidencias() const {
 }
 
 void Equipo::generarId() {
-    id = getPrefix() + "-" + id;
+    id = getPrefix() + "-" + to_string(contador);;
 }
 
 int Equipo::tiempoInactivo(int diaActual) const { return (diaActual-diaMantenimiento); }
@@ -69,8 +79,8 @@ void Equipo::aplicarDegradacion(int dia) {
 
 string Equipo::toString() const {
     stringstream s;
-    s << "ID: " << id << " | Tipo: " << getTipo() << " | Criticidad: " << criticidad
-      << " | Dia Mantenimiento: " << diaMantenimiento << " | Incidencias: " << cantidadIncidencias();
+    s << "ID: " << left << setw(8) << id << " | Tipo: " << setw(25) << getTipo() << " | Criticidad: " << setw(6) << criticidad
+      << " | Dia Mantenimiento: " << setw(2) << diaMantenimiento << " | Incidencias: " << cantidadIncidencias();
     return s.str();
 }
 

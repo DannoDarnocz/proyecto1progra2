@@ -154,10 +154,10 @@ bool ListaEquipo::ordenarPrioridad() {
 // degradacion
 void ListaEquipo::degradarTodos(int dia)
 {
+    actual = primero;
     // recorrer todos los nodos degradnado
     while (actual)
     {
-        actual = primero;
         actual->getEquipo()->aplicarDegradacion(dia);
         actual = actual->getSig();
     }

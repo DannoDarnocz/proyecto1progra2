@@ -3,6 +3,9 @@
 //
 
 #include "../cabeceras/Incidencia.h"
+
+#include <iomanip>
+
 #include "../cabeceras/excepciones/ErrorRango.h"
 
 int Incidencia::contador = 0;
@@ -35,7 +38,7 @@ string Incidencia::getSeveridadString() const
 string Incidencia::toString() const {
     stringstream s;
 
-    s << "ID: " << id << " | Severidad: " << getSeveridadString() << " | Dia: " << dia<< " | Equipo: " ;
+    s << "ID: " << left << setw(2) << id << " | Severidad: " << setw(5) << getSeveridadString() << " | Dia: " << setw(2) << dia<< " | Equipo: " ;
 
     if (equipo) {
         s << equipo->getId();

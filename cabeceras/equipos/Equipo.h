@@ -22,7 +22,7 @@ protected:
     float criticidad;
     ListaIncidencia* incidencias;
 public:
-    Equipo(double crit, int diaMant);
+    Equipo(double crit, int diaMant, bool esProto = false);
     //Gets
     string getId() const;
     int getDiaMant() const;

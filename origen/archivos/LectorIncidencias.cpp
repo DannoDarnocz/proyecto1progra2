@@ -5,7 +5,7 @@
 #include "../../cabeceras/archivos/LectorIncidencias.h"
 #include "../../cabeceras/excepciones/ErrorArchivoLectura.h"
 
-ListaIncidencia* LectorIncidencias::leerArchivo(string nombreArchivo) const
+ListaIncidencia* LectorIncidencias::leerArchivo(string nombreArchivo, ListaIncidencia* li) const
 {
     ifstream f(nombreArchivo);
 
@@ -14,7 +14,8 @@ ListaIncidencia* LectorIncidencias::leerArchivo(string nombreArchivo) const
         throw ErrorArchivoLectura(nombreArchivo);
     }
 
-    ListaIncidencia* lista = new ListaIncidencia();
+    if (!li) { li = new ListaIncidencia(); }
+    ListaIncidencia* lista = li;
     while (f.good())
     {
         int severidad;

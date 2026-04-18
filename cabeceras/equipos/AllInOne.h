@@ -9,7 +9,7 @@
 
 class AllInOne : public Equipo {
 public:
-    AllInOne();
+    AllInOne(bool esPrototipo = false);
     AllInOne(double crit, double tiempo);
     string getTipo() const;
     string getPrefix() const override;
