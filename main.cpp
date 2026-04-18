@@ -63,6 +63,7 @@ int main()
                 LectorIncidencias lectorIncidencias;
 
                 try{
+                    equipos = lectorEquipos.leerArchivo("equipos.txt");
                     incidencias = lectorIncidencias.leerArchivo("incidencias.txt");
                     cout << "Se han cargado los datos con exito." << endl;
                 }
@@ -142,10 +143,12 @@ int main()
                 }
             break;
             case 4: // lista equipos
+                limpiarPantalla();
                 cout << equipos->toString()<<endl;
                 esperarEnter();
                 break;
             case 5: // lista incidentes
+                limpiarPantalla();
                 cout << incidencias->toString()<<endl;
                 esperarEnter();
                 break;

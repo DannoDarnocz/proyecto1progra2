@@ -12,6 +12,9 @@ public:
     AllInOne();
     AllInOne(double crit, double tiempo);
     string getTipo() const;
+    string getPrefix() const override;
+    void leerDatos(stringstream &ss) override;
+    Equipo* crear() override;
 };
 
 

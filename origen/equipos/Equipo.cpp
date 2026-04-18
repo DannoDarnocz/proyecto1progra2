@@ -36,7 +36,7 @@ ListaIncidencia* Equipo::obtenerListaIncidencia() const { return incidencias; }
 
 void Equipo::eliminarIncidencias()
 {
-    // solo Equipo conoce incidencias, se puede borrar y crear una nueva, y listp
+    // solo Equipo conoce incidencias, se puede borrar y crear una nueva, y listo
     if (incidencias) delete incidencias;
     incidencias = new ListaIncidencia();
 }
@@ -47,6 +47,10 @@ void Equipo::setCriticidad(float criticidad) {
 
 int Equipo::cantidadIncidencias() const {
     return incidencias->getTam(); //Metodo retorna variable int tamano
+}
+
+void Equipo::generarId() {
+    id = getPrefix() + "-" + id;
 }
 
 int Equipo::tiempoInactivo(int diaActual) const { return (diaActual-diaMantenimiento); }

@@ -4,10 +4,14 @@
 
 #ifndef PROYECTO_1_LECTORARCHIVO_H
 #define PROYECTO_1_LECTORARCHIVO_H
+#include <fstream>
+#include <sstream>
+#include "../listas/ListaEquipo.h"
+using namespace std;
 
-
-class LectorEquipos
-{
+class LectorEquipos {
+public:
+    ListaEquipo* leerArchivo(string) const;
 };
 
 
