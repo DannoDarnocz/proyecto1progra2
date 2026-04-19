@@ -146,9 +146,59 @@ NodoEquipo* ListaEquipo::buscarPorId(string id) {
 
 
 //Ordenamientos
-bool ListaEquipo::ordenarPrioridad() {
-    //Falta ordenamiento
-    return false;
+NodoEquipo *ListaEquipo::dividir(NodoEquipo* cabeza) {
+    NodoEquipo* rapido = cabeza;
+    NodoEquipo* lento = cabeza;
+
+    while (rapido != nullptr && rapido->sig != nullptr) {
+        rapido = rapido->sig->sig;
+        if (rapido != nullptr) {
+            lento = lento->sig;
+        }
+    }
+
+    NodoEquipo* temporal = lento->getSig();
+    lento->sig = nullptr;
+    return temporal;
+}
+
+NodoEquipo *ListaEquipo::merge(NodoEquipo *primero, NodoEquipo *segundo) {
+    if (primero == nullptr) { return segundo;}
+    if (segundo == nullptr) { return primero;}
+
+    Equipo* a = primero->getEquipo();
+    Equipo* b = segundo->getEquipo();
+    if (!a || !b) { return nullptr; }
+    if (a->getCriticidad() > b->getCriticidad()) {
+        primero->sig = merge(primero->getSig(),segundo);
+        return primero;
+    } else if (a->getCriticidad() < b->getCriticidad()) {
+        segundo->sig = merge(primero,segundo->getSig());
+        return segundo;
+    } else {
+        if (a->getDiaMant() <= b->getDiaMant()) {
+            primero->sig = merge(primero->getSig(),segundo);
+            return primero;
+        }
+        else {
+            segundo->sig = merge(primero,segundo->getSig());
+            return segundo;
+        }
+    }
+}
+
+NodoEquipo *ListaEquipo::mergeSort(NodoEquipo *cabeza) {
+    if (!cabeza || !cabeza->sig) { return cabeza;}
+    NodoEquipo* mitad = dividir(cabeza);
+    cabeza = mergeSort(cabeza);
+    mitad = mergeSort(mitad);
+    return merge(cabeza,mitad);
+}
+
+void ListaEquipo::ordenarPrioridad() {
+    actual = primero;
+    if (tam==0 || tam==1) return;
+    primero = mergeSort(primero);
 }
 
 // degradacion

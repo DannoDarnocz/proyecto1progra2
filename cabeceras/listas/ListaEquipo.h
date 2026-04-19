@@ -14,6 +14,10 @@ private:
     NodoEquipo* primero;
     NodoEquipo* actual;
     int tam;
+
+    NodoEquipo* dividir(NodoEquipo*);
+    NodoEquipo* merge(NodoEquipo*, NodoEquipo*);
+    NodoEquipo* mergeSort(NodoEquipo*);
 public:
     ListaEquipo();
     ~ListaEquipo();
@@ -37,7 +41,7 @@ public:
     NodoEquipo* buscarPorPos(int); // Busca por posicion
 
     //Ordenamiento
-    bool ordenarPrioridad();
+    void ordenarPrioridad();
 
     //degradacion
     void degradarTodos(int dia);

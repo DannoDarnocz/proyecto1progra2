@@ -19,7 +19,8 @@
 #include "cabeceras/excepciones/ErrorArchivoLectura.h"
 using namespace std;
 
-void sortearIncidencias(ListaEquipo*,int,int);
+void sortearIncidencias(ListaEquipo*,int,
+    ListaIncidencia*);
 void esperarEnter(bool = true);
 void limpiarPantalla();
 int pedirDato(int,int,bool=true);
@@ -161,7 +162,6 @@ int main()
                 break;
 
         }
-
         limpiarPantalla();
     }
 
@@ -170,7 +170,7 @@ int main()
 
     // Sorteo inicial de 300 incidencias
     int dia=0;
-    //sortearIncidencias(equipos,300,dia);
+    sortearIncidencias(equipos,300,incidencias);
 
 
     for (dia=1;dia<=30;dia++)
@@ -233,8 +233,49 @@ void cargarDatosQuemados(ListaEquipo* l)
         l->insertarFinal(equipoNuevo);
     }
 }
-
-void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
+*/
+//Función para registrar las incidencias cargadas por primera vez en los equipos de forma automática
+void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
+    try {
+        if (cantidad<=0) { throw ErrorNegativo(); }
+        NodoEquipo* ne = l->getPrimero();
+        NodoIncidencia* ni = inci->getPrimero();
+        for (int i=0;i<cantidad;i++) {
+            if (!ne) { break;}
+            if (!ni) { break;}
+            Equipo* E = ne->getEquipo();
+            if (!E) { ne = ne->sig; continue;}
+            if (E->getCriticidad() <= 100 && E->getCriticidad() > 70) {
+                for (int j=0;j<5;j++) {
+                    if (!ni) { break;}
+                    E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni = ni->getSig();
+                }
+            } else if (E->getCriticidad() <= 70 && E->getCriticidad() > 40) {
+                for (int j=0;j<3;j++) {
+                    if (!ni) { break;}
+                    E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni = ni->getSig();
+                }
+            } else if (E->getCriticidad() <= 40 && E->getCriticidad() > 0) {
+                for (int j=0;j<1;j++) {
+                    if (!ni) { break;}
+                    E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni = ni->getSig();
+                }
+            }
+            ne = ne->sig;
+        }
+    }
+    catch (ErrorNegativo& e) {
+        cout << e.what() << endl;
+    }
+    catch (exception& e) {
+        cout << "Ocurrio un error inesperado al sortear las incidencias." << endl;
+    }
+}
+/*
+void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia) //Cambiar Nombre funcion
 {
     try
     {
@@ -259,20 +300,14 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia)
     catch (exception& e) {
         cout << "Ocurrio un error inesperado al sortear las incidencias." << endl;
     }
-
-
 }*/
 
-void esperarEnter(bool msg)
-{
+void esperarEnter(bool msg) {
     if (msg) cout << "Presione ENTER para continuar.";
     cin.get();
 }
 
-void limpiarPantalla()
-{
-    // implementar
-}
+void limpiarPantalla() { system("cls"); }
 
 int pedirDato(int min, int max, bool mostrarTexto) {
     int opcion;
