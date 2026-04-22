@@ -224,3 +224,18 @@ string ListaEquipo::toString() {
     }
     return s.str();
 }
+
+double ListaEquipo::promedioPrioridad(int diaActual) {
+    // recorrer todos y obtener promedio de prioridad
+    if (tam == 0) { return 0.0; }
+    double suma = 0.0;
+    actual = primero;
+    while (actual) {
+        Equipo* e = actual->getEquipo();
+        if (e) {
+            suma += e->calcPrioridad(e->tiempoInactivo(diaActual));
+        }
+        actual = actual->sig;
+    }
+    return suma / tam;
+}

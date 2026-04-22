@@ -19,7 +19,7 @@
 #include "cabeceras/excepciones/ErrorArchivoLectura.h"
 using namespace std;
 
-void sortearIncidencias(ListaEquipo*,int,
+void sorteoIncidencias(ListaEquipo*,int,
     ListaIncidencia*);
 void esperarEnter(bool = true);
 void limpiarPantalla();
@@ -55,6 +55,7 @@ int main()
 
     while (repetir)
     {
+        limpiarPantalla();
         Menu menu;
         dato = menu.principal(equipos->getTam(),incidencias->getTam());
 
@@ -70,12 +71,12 @@ int main()
                         incidencias = lectorIncidencias.leerArchivo("../incidencias.txt",incidencias);
                         cout << "Se han cargado los datos con exito." << endl;
                         cargado = true;
+                        esperarEnter();
                     }
                     catch (ErrorArchivoLectura& e)
                     {
                         cout << e.what() << endl;
                     }
-                    esperarEnter();
                 } else { cout << "Los datos ya han sido cargados" << endl; esperarEnter(); }
                 break;
             case 2:
@@ -116,7 +117,6 @@ int main()
                             break;
                         }
                         cout<< "Equipo agregado exitosamente."<<endl;
-                        esperarEnter();
                     }
                     catch (ErrorValor& e)
                     {
@@ -158,25 +158,50 @@ int main()
                 esperarEnter();
                 break;
             case 6: // ejecutar silumacion
-                repetir=false;
+                if (equipos->getTam()<3)
+                {
+                    cout << "Se requiere un minimo de 3 computadoras."<<endl;
+                    esperarEnter();
+                }
+                else
+                {
+                    repetir=false;
+                }
                 break;
 
         }
-        limpiarPantalla();
+        esperarEnter();
     }
 
     // ordenar antes de
     equipos->ordenarPrioridad();
+    equipos->toString();
 
     // Sorteo inicial de 300 incidencias
     int dia=0;
-    sortearIncidencias(equipos,300,incidencias);
+    sorteoIncidencias(equipos,300,incidencias);
 
-
+    // simulacion
     for (dia=1;dia<=30;dia++)
     {
         //equipos.aplicarDegradacionTodos();
         stringstream resultado;
+        cout << " --- DIA " << dia << " ---" <<endl<<endl
+        << "Equipos con mayor prioridad"<<endl;
+
+
+        for (int i=0;i<equipos->getTam()&&i<3;i++)
+        {
+            Equipo* actual = nullptr;
+            NodoEquipo* nodoActual = equipos->buscarPorPos(1);
+            if (nodoActual) {
+                actual = nodoActual->getEquipo();
+                cout << "#" << i+1 << ": " << actual->toString() << endl;
+            }
+        }
+         cout <<"Presione ENTER para proceder con el mantenimiento.";
+
+        esperarEnter();
 
 
         // reporte
@@ -266,6 +291,7 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
             }
             ne = ne->sig;
         }
+        cout << "Se han sorteado "  << cantidad << " incidencias correctamente." << endl;
     }
     catch (ErrorNegativo& e) {
         cout << e.what() << endl;

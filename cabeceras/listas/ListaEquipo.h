@@ -48,6 +48,9 @@ public:
 
     //toString
     string toString();
+
+    // promedio de prioridad
+    double promedioPrioridad(int);
 };
 
 
