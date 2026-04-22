@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <iomanip>
 #include <limits>
+#include <windows.h>
 #include "cabeceras/equipos/AllInOne.h"
 #include "cabeceras/listas/ListaEquipo.h"
 #include "cabeceras/excepciones/ErrorDecimal.h"
@@ -58,7 +59,7 @@ int main()
         limpiarPantalla();
         Menu menu;
         dato = menu.principal(equipos->getTam(),incidencias->getTam());
-
+        limpiarPantalla();
         switch (dato)
         {
             case 1:
@@ -71,16 +72,14 @@ int main()
                         incidencias = lectorIncidencias.leerArchivo("../incidencias.txt",incidencias);
                         cout << "Se han cargado los datos con exito." << endl;
                         cargado = true;
-                        esperarEnter();
                     }
                     catch (ErrorArchivoLectura& e)
                     {
                         cout << e.what() << endl;
                     }
-                } else { cout << "Los datos ya han sido cargados" << endl; esperarEnter(); }
+                } else { cout << "Los datos ya han sido cargados" << endl; }
                 break;
             case 2:
-                limpiarPantalla();
                 // agregar nuevo equipo a mano
                 while (true)
                 {
@@ -96,8 +95,7 @@ int main()
 
                     if (dato==0) break;
 
-                    try
-                    {
+                    try {
                         switch (dato)
                         {
                         case 1:
@@ -118,12 +116,10 @@ int main()
                         }
                         cout<< "Equipo agregado exitosamente."<<endl;
                     }
-                    catch (ErrorValor& e)
-                    {
+                    catch (ErrorValor& e) {
                         cout << e.what()  << endl;
                     }
                 }
-                esperarEnter();
                 break;
             case 3: // agregar incidencia
                 while (true){
@@ -148,38 +144,32 @@ int main()
                 }
             break;
             case 4: // lista equipos
-                limpiarPantalla();
                 cout << equipos->toString()<<endl;
-                esperarEnter();
                 break;
             case 5: // lista incidentes
-                limpiarPantalla();
                 cout << incidencias->toString()<<endl;
-                esperarEnter();
                 break;
-            case 6: // ejecutar silumacion
-                if (equipos->getTam()<3)
-                {
+            case 6: // ejecutar simulacion
+                if (equipos->getTam()<3) {
                     cout << "Se requiere un minimo de 3 computadoras."<<endl;
-                    esperarEnter();
                 }
-                else
-                {
+                else {
                     repetir=false;
                 }
                 break;
-
         }
         esperarEnter();
     }
 
     // ordenar antes de
     equipos->ordenarPrioridad();
-    equipos->toString();
 
     // Sorteo inicial de 300 incidencias
     int dia=0;
     sorteoIncidencias(equipos,300,incidencias);
+    cout << equipos->toString();
+    cout << "Equipos han sido ordenados y las incidencias han sido sorteadas\n";
+    esperarEnter();
 
     // simulacion
     for (dia=1;dia<=30;dia++)
@@ -270,19 +260,25 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
             if (!ni) { break;}
             Equipo* E = ne->getEquipo();
             if (!E) { ne = ne->sig; continue;}
-            if (E->getCriticidad() <= 100 && E->getCriticidad() > 70) {
+            if (E->getCriticidad() <= 100 && E->getCriticidad() > 80) {
+                for (int j=0;j<7;j++) {
+                    if (!ni) { break;}
+                    E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni = ni->getSig();
+                }
+            } else if (E->getCriticidad() <= 80 && E->getCriticidad() > 55) {
                 for (int j=0;j<5;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
                     ni = ni->getSig();
                 }
-            } else if (E->getCriticidad() <= 70 && E->getCriticidad() > 40) {
+            } else if (E->getCriticidad() <= 55 && E->getCriticidad() > 30) {
                 for (int j=0;j<3;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
                     ni = ni->getSig();
                 }
-            } else if (E->getCriticidad() <= 40 && E->getCriticidad() > 0) {
+            } else if (E->getCriticidad() <= 30 && E->getCriticidad() > 0) {
                 for (int j=0;j<1;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
@@ -329,11 +325,10 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia) //Cambiar Nombre f
 }*/
 
 void esperarEnter(bool msg) {
-    if (msg) cout << "Presione ENTER para continuar.";
-    cin.get();
+    if (msg) { system("pause");}
 }
 
-void limpiarPantalla() { system("cls"); }
+void limpiarPantalla() { system("cls"); Sleep(300);}
 
 int pedirDato(int min, int max, bool mostrarTexto) {
     int opcion;
