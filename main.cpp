@@ -62,114 +62,115 @@ int main()
         limpiarPantalla();
         switch (dato)
         {
-            case 1:
-                if (!cargado) {
-                    LectorEquipos lectorEquipos;
-                    LectorIncidencias lectorIncidencias;
+        case 1:
+            if (!cargado) {
+                LectorEquipos lectorEquipos;
+                LectorIncidencias lectorIncidencias;
 
-                    try{
-                        equipos = lectorEquipos.leerArchivo("../equipos.txt", equipos);
-                        incidencias = lectorIncidencias.leerArchivo("../incidencias.txt",incidencias);
-                        cout << "Se han cargado los datos con exito." << endl;
-                        cargado = true;
-                    }
-                    catch (ErrorArchivoLectura& e)
-                    {
-                        cout << e.what() << endl;
-                    }
-                } else { cout << "Los datos ya han sido cargados" << endl; }
-                break;
-            case 2:
-                // agregar nuevo equipo a mano
-                while (true)
+                try{
+                    equipos = lectorEquipos.leerArchivo("../equipos.txt", equipos);
+                    incidencias = lectorIncidencias.leerArchivo("../incidencias.txt",incidencias);
+                    cout << "Se han cargado los datos con exito." << endl;
+                    cargado = true;
+                }
+                catch (ErrorArchivoLectura& e)
                 {
-                    cout << "- AGREGAR NUEVO EQUIPO -"<<endl<<endl
-                    << "Tipos de equipo: " << endl
-                    << "   1. Laptop"<<endl
-                    << "   2. Computadora de escritorio"<<endl
-                    << "   3. Computadora All-In-One"<<endl
-                    << "   4. Microscopio"<<endl
-                    << "   5. Osciloscopio"<<endl
-                    << "   0. Salir"<<endl<<endl;
-                    dato = pedirDato(0,5);
+                    cout << e.what() << endl;
+                }
+            } else { cout << "Los datos ya han sido cargados" << endl; }
+            break;
+        case 2:
+            // agregar nuevo equipo a mano
+            while (true)
+            {
+                cout << "- AGREGAR NUEVO EQUIPO -"<<endl<<endl
+                << "Tipos de equipo: " << endl
+                << "   1. Laptop"<<endl
+                << "   2. Computadora de escritorio"<<endl
+                << "   3. Computadora All-In-One"<<endl
+                << "   4. Microscopio"<<endl
+                << "   5. Osciloscopio"<<endl
+                << "   0. Salir"<<endl<<endl;
+                dato = pedirDato(0,5);
 
+                if (dato==0) break;
+
+                try {
+                    switch (dato)
+                    {
+                    case 1:
+                        equipos->insertarFinal(new Laptop);
+                        break;
+                    case 2:
+                        equipos->insertarFinal(new ComputadoraEscritorio);
+                        break;
+                    case 3:
+                        equipos->insertarFinal(new AllInOne);
+                        break;
+                    case 4:
+                        equipos->insertarFinal(new Microscopio);
+                        break;
+                    case 5:
+                        equipos->insertarFinal(new Osciloscopio);
+                        break;
+                    }
+                    cout<< "Equipo agregado exitosamente."<<endl;
+                }
+                catch (ErrorValor& e) {
+                    cout << e.what()  << endl;
+                }
+            }
+            break;
+        case 3: // agregar incidencia
+            while (true){
+                try
+                {
+                    string severidad;
+                    int s;
+
+                    cout << "Se va a crear una incidencia con ID " << incidencias->getTam()<< endl
+                    << "Ingrese la severidad de la incidencia (0- salir, 1- baja, 2- media, 3- alta): ";
+                    dato = pedirDato(0,3,false);
                     if (dato==0) break;
 
-                    try {
-                        switch (dato)
-                        {
-                        case 1:
-                            equipos->insertarFinal(new Laptop);
-                            break;
-                        case 2:
-                            equipos->insertarFinal(new ComputadoraEscritorio);
-                            break;
-                        case 3:
-                            equipos->insertarFinal(new AllInOne);
-                            break;
-                        case 4:
-                            equipos->insertarFinal(new Microscopio);
-                            break;
-                        case 5:
-                            equipos->insertarFinal(new Osciloscopio);
-                            break;
-                        }
-                        cout<< "Equipo agregado exitosamente."<<endl;
-                    }
-                    catch (ErrorValor& e) {
-                        cout << e.what()  << endl;
-                    }
+                    s=dato-1; // uno menor a lo que se le muestra el usuario
+                    Incidencia* nuevaIncidencia = new Incidencia(nullptr,s,0);
+                    incidencias->insertarFinal(nuevaIncidencia);
+                    cout << "Se ha creado la incidencia con exito. " << endl << endl;
+                } catch (ErrorValor& e)
+                {
+                    cout << e.what() << endl;
                 }
-                break;
-            case 3: // agregar incidencia
-                while (true){
-                    try
-                    {
-                        string severidad;
-                        int s;
-
-                        cout << "Se va a crear una incidencia con ID " << incidencias->getTam()<< endl
-                        << "Ingrese la severidad de la incidencia (0- salir, 1- baja, 2- media, 3- alta): ";
-                        dato = pedirDato(0,3,false);
-                        if (dato==0) break;
-
-                        s=dato-1; // uno menor a lo que se le muestra el usuario
-                        Incidencia* nuevaIncidencia = new Incidencia(nullptr,s,0);
-                        incidencias->insertarFinal(nuevaIncidencia);
-                        cout << "Se ha creado la incidencia con exito. " << endl << endl;
-                    } catch (ErrorValor& e)
-                    {
-                        cout << e.what() << endl;
-                    }
-                }
+            }
             break;
-            case 4: // lista equipos
-                cout << equipos->toString()<<endl;
-                break;
-            case 5: // lista incidentes
-                cout << incidencias->toString()<<endl;
-                break;
-            case 6: // ejecutar simulacion
-                if (equipos->getTam()<3) {
-                    cout << "Se requiere un minimo de 3 computadoras."<<endl;
-                }
-                else {
-                    repetir=false;
-                }
-                break;
+        case 4: // lista equipos
+            cout << equipos->toString(0)<<endl;
+            break;
+        case 5: // lista incidentes
+            cout << incidencias->toString()<<endl;
+            break;
+        case 6: // ejecutar simulacion
+            if (equipos->getTam()<3) {
+                cout << "Se requiere un minimo de 3 computadoras."<<endl;
+            }
+            else
+            {
+                repetir=false;
+                continue;
+            }
+            break;
         }
         esperarEnter();
     }
 
-    // ordenar antes de
-    equipos->ordenarPrioridad();
 
     // Sorteo inicial de 300 incidencias
     int dia=0;
     sorteoIncidencias(equipos,300,incidencias);
-    cout << equipos->toString();
-    cout << "Equipos han sido ordenados y las incidencias han sido sorteadas\n";
-    esperarEnter();
+    equipos->ordenarPrioridad(dia);
+    cout << equipos->toString(dia);
+    cout << "Equipos han sido ordenados y las incidencias han sido sorteadas.\nPresione ENTER para proceder con la simulacion.";
+    esperarEnter(false);
 
     // simulacion
     for (dia=1;dia<=30;dia++)
@@ -183,22 +184,23 @@ int main()
         for (int i=0;i<equipos->getTam()&&i<3;i++)
         {
             Equipo* actual = nullptr;
-            NodoEquipo* nodoActual = equipos->buscarPorPos(1);
+            NodoEquipo* nodoActual = equipos->buscarPorPos(i+1);
             if (nodoActual) {
                 actual = nodoActual->getEquipo();
-                cout << "#" << i+1 << ": " << actual->toString() << endl;
+                cout << actual->toString(dia) << endl;
             }
         }
-         cout <<"Presione ENTER para proceder con el mantenimiento.";
+         cout  <<endl<< endl<<"Presione ENTER para proceder con el mantenimiento.";
 
-        esperarEnter();
+        esperarEnter(false);
 
 
         // reporte
-        resultado << "---- DIA " << dia << " ----"<< endl<< endl
+        resultado << "---- REPORTE DEL DIA " << dia << " ----"<< endl<< endl
             << "Equipos atendidos: 3" << endl
             << "Equipos pendientes de atencion: " << endl
             << "Riesgo global del laboratorio (promedio de prioridades): " << endl;
+        cout << resultado.str();
         try
         {
             ofstream f("registros.txt",ios::app);
@@ -209,14 +211,18 @@ int main()
             }
 
             f << resultado.str();
+
         }
         catch (ErrorArchivo& e)
         {
             cout << e.what() << endl;
         }
 
+        // finalizar dia
+        equipos->ordenarPrioridad(dia);
+        cout  << endl<< "Presione ENTER para continuar con el siguiente dia... ";
+        esperarEnter(false);
     }
-    return 0;
 }
 /*
 void cargarDatosQuemados(ListaEquipo* l)
@@ -325,10 +331,18 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia) //Cambiar Nombre f
 }*/
 
 void esperarEnter(bool msg) {
-    if (msg) { system("pause");}
+    if (msg) {
+        cout << "Presione ENTER para continuar... ";
+    }
+    cin.clear();
+    cin.ignore(100000, '\n');
 }
 
-void limpiarPantalla() { system("cls"); Sleep(300);}
+void limpiarPantalla()
+{
+    system("cls");
+    Sleep(100); // tiempo de espera por si acaso
+}
 
 int pedirDato(int min, int max, bool mostrarTexto) {
     int opcion;

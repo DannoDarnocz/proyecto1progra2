@@ -40,7 +40,7 @@ public:
     double calcPrioridad(int) const;    //Calcula su nivel de prioridad
     void aplicarDegradacion(int dia); //Aplica degradacion al equipo en un dia especifico
     virtual string getTipo() const = 0; //Devuelve tipo de las hijas
-    virtual string toString() const; //Devuelve todos los atributos
+    virtual string toString(int) const; //Devuelve todos los atributos + la prioridad
     virtual void leerDatos(stringstream& ss) = 0; //Lee datos enviados desde el archivo para copiar
     virtual Equipo* crear() = 0; //Se crea a si misma
 };

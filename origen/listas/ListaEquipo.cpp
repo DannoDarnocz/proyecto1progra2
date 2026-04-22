@@ -162,43 +162,45 @@ NodoEquipo *ListaEquipo::dividir(NodoEquipo* cabeza) {
     return temporal;
 }
 
-NodoEquipo *ListaEquipo::merge(NodoEquipo *primero, NodoEquipo *segundo) {
+NodoEquipo *ListaEquipo::merge(NodoEquipo *primero, NodoEquipo *segundo, int dia) {
     if (primero == nullptr) { return segundo;}
     if (segundo == nullptr) { return primero;}
 
     Equipo* a = primero->getEquipo();
     Equipo* b = segundo->getEquipo();
     if (!a || !b) { return nullptr; }
-    if (a->getCriticidad() > b->getCriticidad()) {
-        primero->sig = merge(primero->getSig(),segundo);
+    if (a->calcPrioridad(dia) > b->calcPrioridad(dia)) {
+        primero->sig = merge(primero->getSig(),segundo,dia);
         return primero;
     } else if (a->getCriticidad() < b->getCriticidad()) {
-        segundo->sig = merge(primero,segundo->getSig());
+        segundo->sig = merge(primero,segundo->getSig(),dia);
         return segundo;
-    } else {
+    }
+    else {
+        // se prioriza el mas viejo si son iguales
         if (a->getDiaMant() <= b->getDiaMant()) {
-            primero->sig = merge(primero->getSig(),segundo);
+            primero->sig = merge(primero->getSig(),segundo,dia);
             return primero;
         }
         else {
-            segundo->sig = merge(primero,segundo->getSig());
+            segundo->sig = merge(primero,segundo->getSig(),dia);
             return segundo;
         }
     }
 }
 
-NodoEquipo *ListaEquipo::mergeSort(NodoEquipo *cabeza) {
+NodoEquipo *ListaEquipo::mergeSort(NodoEquipo *cabeza, int dia) {
     if (!cabeza || !cabeza->sig) { return cabeza;}
     NodoEquipo* mitad = dividir(cabeza);
-    cabeza = mergeSort(cabeza);
-    mitad = mergeSort(mitad);
-    return merge(cabeza,mitad);
+    cabeza = mergeSort(cabeza,dia);
+    mitad = mergeSort(mitad,dia);
+    return merge(cabeza,mitad,dia);
 }
 
-void ListaEquipo::ordenarPrioridad() {
+void ListaEquipo::ordenarPrioridad(int dia) {
     actual = primero;
     if (tam==0 || tam==1) return;
-    primero = mergeSort(primero);
+    primero = mergeSort(primero,dia);
 }
 
 // degradacion
@@ -214,12 +216,12 @@ void ListaEquipo::degradarTodos(int dia)
 }
 
 // toString
-string ListaEquipo::toString() {
+string ListaEquipo::toString(int dia) {
     if (tam==0) return "No hay equipos registrados";
     stringstream s;
     actual = primero;
     while (actual) {
-        s << actual->getEquipo()->toString() << endl;
+        s << actual->getEquipo()->toString(dia) << endl;
         actual = actual->sig;
     }
     return s.str();

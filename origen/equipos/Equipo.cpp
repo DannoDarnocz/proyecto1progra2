@@ -77,10 +77,11 @@ void Equipo::aplicarDegradacion(int dia) {
     if (criticidad > 0) { incidencias->insertarInicio(this, valor3, dia); }
 }
 
-string Equipo::toString() const {
+string Equipo::toString(int dia) const {
     stringstream s;
-    s << "ID: " << left << setw(8) << id << " | Tipo: " << setw(25) << getTipo() << " | Criticidad: " << setw(6) << criticidad
-      << " | Dia Mantenimiento: " << setw(2) << diaMantenimiento << " | Incidencias: " << cantidadIncidencias();
+    s << "ID: " << left << setw(8) << id << " | Tipo: " << setw(17) << getTipo() << " | Criticidad: " << setw(6) << criticidad
+      << " | Dia Mantenimiento: " << setw(2) << diaMantenimiento << " | Incidencias: " << cantidadIncidencias()
+    << " | Prioridad: " << calcPrioridad(dia);
     return s.str();
 }
 

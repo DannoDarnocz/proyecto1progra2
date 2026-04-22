@@ -16,8 +16,8 @@ private:
     int tam;
 
     NodoEquipo* dividir(NodoEquipo*);
-    NodoEquipo* merge(NodoEquipo*, NodoEquipo*);
-    NodoEquipo* mergeSort(NodoEquipo*);
+    NodoEquipo* merge(NodoEquipo*, NodoEquipo*,int);
+    NodoEquipo* mergeSort(NodoEquipo*,int);
 public:
     ListaEquipo();
     ~ListaEquipo();
@@ -41,13 +41,13 @@ public:
     NodoEquipo* buscarPorPos(int); // Busca por posicion
 
     //Ordenamiento
-    void ordenarPrioridad();
+    void ordenarPrioridad(int);
 
     //degradacion
     void degradarTodos(int dia);
 
     //toString
-    string toString();
+    string toString(int);
 
     // promedio de prioridad
     double promedioPrioridad(int);

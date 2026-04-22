@@ -7,7 +7,7 @@
 ComputadoraEscritorio::ComputadoraEscritorio(bool esPrototipo) : Equipo(0,0,esPrototipo) { if (!esPrototipo) { generarId();} }
 ComputadoraEscritorio::ComputadoraEscritorio(double crit, double tiempo) : Equipo(crit, tiempo) { generarId(); }
 
-string ComputadoraEscritorio::getTipo() const { return "Computadora de escritorio"; }
+string ComputadoraEscritorio::getTipo() const { return "PC de escritorio"; }
 
 string ComputadoraEscritorio::getPrefix() const { return "PC"; }
 void ComputadoraEscritorio::leerDatos(stringstream &ss) {
