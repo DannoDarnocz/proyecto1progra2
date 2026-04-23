@@ -12,7 +12,7 @@ class MantenimientoSoftware : public MantenimientoDecorador
 public:
     MantenimientoSoftware(Mantenimiento *m):MantenimientoDecorador(m) {}
     string descripcion() const override;
-    void arreglar(Equipo *e) override;
+    void arreglar(Equipo *e, int dia) override;
 };
 
 

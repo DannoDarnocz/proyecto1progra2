@@ -51,6 +51,10 @@ public:
 
     // promedio de prioridad
     double promedioPrioridad(int);
+
+    // Equipos pendientes
+    int equiposPendientes(int dia);
+
 };
 
 

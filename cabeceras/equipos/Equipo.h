@@ -33,6 +33,7 @@ public:
     void eliminarIncidencias();
     //Sets
     void setCriticidad(float criticidad);
+    void setDiaMantenimiento(int diaMantenimiento);
     //Generales
     void generarId(); //Genera nueva ID según el tipo de Equipo de las derivadas
     int tiempoInactivo(int diaActual) const; //Devuelve cantidad de tiempo sin mantenimiento

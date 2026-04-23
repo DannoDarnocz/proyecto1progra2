@@ -169,10 +169,12 @@ NodoEquipo *ListaEquipo::merge(NodoEquipo *primero, NodoEquipo *segundo, int dia
     Equipo* a = primero->getEquipo();
     Equipo* b = segundo->getEquipo();
     if (!a || !b) { return nullptr; }
-    if (a->calcPrioridad(dia) > b->calcPrioridad(dia)) {
+    double aPrio = a->calcPrioridad(dia);
+    double bPrio = b->calcPrioridad(dia);
+    if (aPrio > bPrio) {
         primero->sig = merge(primero->getSig(),segundo,dia);
         return primero;
-    } else if (a->getCriticidad() < b->getCriticidad()) {
+    } else if (aPrio < bPrio) {
         segundo->sig = merge(primero,segundo->getSig(),dia);
         return segundo;
     }
@@ -237,7 +239,21 @@ double ListaEquipo::promedioPrioridad(int diaActual) {
         if (e) {
             suma += e->calcPrioridad(e->tiempoInactivo(diaActual));
         }
-        actual = actual->sig;
+        actual = actual->getSig();
     }
     return suma / tam;
+}
+
+int ListaEquipo::equiposPendientes(int dia) {
+    if (tam == 0) { return 0;}
+    int contador = 0;
+    actual = primero;
+    while (actual) {
+        Equipo* e = actual->getEquipo();
+        if (e && e->calcPrioridad(dia) > 0) {
+            contador++;
+        }
+        actual = actual->getSig();
+    }
+    return contador;
 }

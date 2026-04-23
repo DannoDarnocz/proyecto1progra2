@@ -10,7 +10,7 @@
 class MantenimientoBase : public Mantenimiento {
 public:
     string descripcion() const override;
-    void arreglar(Equipo *e) override;
+    void arreglar(Equipo *e, int dia) override;
 };
 
 

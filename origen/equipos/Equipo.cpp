@@ -55,6 +55,10 @@ void Equipo::setCriticidad(float criticidad) {
     this->criticidad=criticidad;
 }
 
+void Equipo::setDiaMantenimiento(int diaMantenimiento) {
+    this->diaMantenimiento=diaMantenimiento;
+}
+
 int Equipo::cantidadIncidencias() const {
     return incidencias->getTam(); //Metodo retorna variable int tamano
 }
@@ -71,7 +75,7 @@ double Equipo::calcPrioridad(int diaActual) const {
 
 void Equipo::aplicarDegradacion(int dia) {
     srand(time(NULL)); // generar nueva semilla
-    double valor1 = (rand() % 100) + 1; //Rango 1-100 Crit
+    double valor1 = (rand() % 25) + 1; //Rango 1-25 Crit
     int valor3 = (rand() % 2); //Rango 0-2 Severidad Incidencia
     criticidad+valor1 > 100 ? criticidad=100 : criticidad+=valor1;
     if (criticidad > 0) { incidencias->insertarInicio(this, valor3, dia); }
@@ -79,9 +83,9 @@ void Equipo::aplicarDegradacion(int dia) {
 
 string Equipo::toString(int dia) const {
     stringstream s;
-    s << "ID: " << left << setw(8) << id << " | Tipo: " << setw(17) << getTipo() << " | Criticidad: " << setw(6) << criticidad
+    s << "ID: " << fixed << left << setw(8) << id << " | Tipo: " << setw(17) << getTipo() << " | Criticidad: " << setw(6) << setprecision(2) << criticidad
       << " | Dia Mantenimiento: " << setw(2) << diaMantenimiento << " | Incidencias: " << cantidadIncidencias()
-    << " | Prioridad: " << calcPrioridad(dia);
+    << " | Prioridad: "  << setprecision(2)  << calcPrioridad(dia);
     return s.str();
 }
 

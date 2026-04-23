@@ -11,8 +11,8 @@ string MantenimientoSoftware::descripcion() const
 {
    return mant->descripcion() + " + Mantenimiento de software";
 };
-void MantenimientoSoftware::arreglar(Equipo *e)
+void MantenimientoSoftware::arreglar(Equipo *e, int dia)
 {
-   mant->arreglar(e);
+   mant->arreglar(e, dia);
    e->setCriticidad(e->getCriticidad()-20); // puede quedar negativo sin problema
 };

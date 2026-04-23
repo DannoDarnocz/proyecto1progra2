@@ -8,8 +8,8 @@ string MantenimientoCambio::descripcion() const
 {
     return mant->descripcion() + " + Cambio de componentes";
 };
-void MantenimientoCambio::arreglar(Equipo *e)
+void MantenimientoCambio::arreglar(Equipo *e, int dia)
 {
-    mant->arreglar(e);
+    mant->arreglar(e, dia);
     e->setCriticidad(e->getCriticidad()-50); // puede quedar negativo sin problema
 };

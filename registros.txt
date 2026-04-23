@@ -1,0 +1,85 @@
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 63
+Riesgo global del laboratorio (promedio de prioridades): 11.4556
+---- REPORTE DEL DIA 2 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 60
+Riesgo global del laboratorio (promedio de prioridades): 9.705
+---- REPORTE DEL DIA 3 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 59
+Riesgo global del laboratorio (promedio de prioridades): 8.2884
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 64
+Riesgo global del laboratorio (promedio de prioridades): 11.5556
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 63
+Riesgo global del laboratorio (promedio de prioridades): 11.3056
+---- REPORTE DEL DIA 2 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 60
+Riesgo global del laboratorio (promedio de prioridades): 9.255
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 64
+Riesgo global del laboratorio (promedio de prioridades): 11.8056
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 63
+Riesgo global del laboratorio (promedio de prioridades): 12.8563
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 86
+Riesgo global del laboratorio (promedio de prioridades): 26.918
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 80
+Riesgo global del laboratorio (promedio de prioridades): 23.0495
+---- REPORTE DEL DIA 2 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 97
+Riesgo global del laboratorio (promedio de prioridades): 38.4165
+---- REPORTE DEL DIA 3 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 96
+Riesgo global del laboratorio (promedio de prioridades): 38.5525
+---- REPORTE DEL DIA 4 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 95
+Riesgo global del laboratorio (promedio de prioridades): 41.528
+---- REPORTE DEL DIA 5 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 98
+Riesgo global del laboratorio (promedio de prioridades): 47.2025
+---- REPORTE DEL DIA 6 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 96
+Riesgo global del laboratorio (promedio de prioridades): 47.054
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 69
+Riesgo global del laboratorio (promedio de prioridades): 15.4055
+---- REPORTE DEL DIA 2 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 77
+Riesgo global del laboratorio (promedio de prioridades): 21.3885

@@ -10,7 +10,7 @@
 class Mantenimiento {
 public:
     virtual string descripcion() const = 0;
-    virtual void arreglar(Equipo* e) = 0;
+    virtual void arreglar(Equipo* e, int dia) = 0;
 };
 
 
