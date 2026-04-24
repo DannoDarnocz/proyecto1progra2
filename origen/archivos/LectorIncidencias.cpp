@@ -16,10 +16,10 @@ ListaIncidencia* LectorIncidencias::leerArchivo(string nombreArchivo, ListaIncid
 
     if (!li) { li = new ListaIncidencia(); }
     ListaIncidencia* lista = li;
-    while (f.good())
+
+    int severidad;
+    while (f >> severidad)
     {
-        int severidad;
-        f >> severidad;
         //nullptr porque aun no se asigna a ninguna, y dia 0 porque es cuando empieza la simulacion
         Incidencia* incidencia = new Incidencia(nullptr,severidad,0);
         lista->insertarFinal(incidencia);

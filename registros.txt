@@ -83,3 +83,13 @@ Riesgo global del laboratorio (promedio de prioridades): 15.4055
 Equipos atendidos: 3
 Equipos pendientes de atencion: 77
 Riesgo global del laboratorio (promedio de prioridades): 21.3885
+---- REPORTE DEL DIA 1 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 67
+Riesgo global del laboratorio (promedio de prioridades): 14.415
+---- REPORTE DEL DIA 2 ----
+
+Equipos atendidos: 3
+Equipos pendientes de atencion: 78
+Riesgo global del laboratorio (promedio de prioridades): 21.3975

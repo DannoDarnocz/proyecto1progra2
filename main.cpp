@@ -9,6 +9,7 @@
 #include "cabeceras/listas/ListaEquipo.h"
 #include "cabeceras/excepciones/ErrorDecimal.h"
 #include "cabeceras/excepciones/ErrorNegativo.h"
+#include "cabeceras/excepciones/ErrorCast.h"
 #include "cabeceras/excepciones/ErrorRango.h"
 #include "cabeceras/equipos/Laptop.h"
 #include "cabeceras/equipos/ComputadoraEscritorio.h"
@@ -132,6 +133,9 @@ int main()
                 catch (ErrorValor& e) {
                     cout << e.what()  << endl;
                 }
+                catch (ErrorPuntero& e) {
+                    cout << e.what()  << endl;
+                }
             }
             break;
         case 3: // agregar incidencia
@@ -153,6 +157,9 @@ int main()
                 } catch (ErrorValor& e)
                 {
                     cout << e.what() << endl;
+                }
+                catch (ErrorPuntero& e) {
+                    cout << e.what()  << endl;
                 }
             }
             break;
@@ -217,7 +224,7 @@ int main()
             case 1: {
                 int cont=0;
                 while (cont < 3) {
-                    cout << "- REPARA EQUIPO " << (cont+1) << "-"<<endl<<endl
+                    cout << endl <<"- REPARA EQUIPO " << (cont+1) << "-"<<endl<<endl
                     << "Tipos de Mantenimiento: " << endl
                     << "   1. Basico"<<endl
                     << "   2. Basico + Cambio Componentes"<<endl
@@ -242,6 +249,8 @@ int main()
                     } catch (ErrorValor& e) {
                         cout << e.what() << endl;
                     } catch (ErrorPuntero& e) {
+                        cout << e.what() << endl;
+                    } catch (ErrorCast& e) {
                         cout << e.what() << endl;
                     }
                 }
@@ -280,7 +289,7 @@ int main()
         resultado << "---- REPORTE DEL DIA " << dia << " ----"<< endl<< endl
             << "Equipos atendidos: 3" << endl
             << "Equipos pendientes de atencion: " << equipos->equiposPendientes(dia) << endl
-            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl; //Rev Promedio
+            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl; //Rev Promedio
         cout << resultado.str();
         try
         {
@@ -306,38 +315,12 @@ int main()
         esperarEnter(false);
         limpiarPantalla();
     }
-}
-/*
-void cargarDatosQuemados(ListaEquipo* l)
-{
-    Equipo* equipoNuevo = nullptr;
-    for (int i=0;i<100;i++)
-    {
-        int tipoRand = rand() % 5;
-        int critRand = rand() % 100;
 
-        switch (tipoRand)
-        {
-        case 0:
-            equipoNuevo = new Laptop(critRand,0);
-            break;
-        case 1:
-            equipoNuevo = new ComputadoraEscritorio(critRand,0);
-            break;
-        case 2:
-            equipoNuevo = new AllInOne(critRand,0);
-            break;
-        case 3:
-            equipoNuevo = new Microscopio(critRand,0);
-            break;
-        case 4:
-            equipoNuevo = new Osciloscopio(critRand,0);
-            break;
-        }
-        l->insertarFinal(equipoNuevo);
-    }
+    cout  << "La simulacion ha finalizado." << endl;
+    delete equipos;
+    delete incidencias;
 }
-*/
+
 //Función para registrar las incidencias cargadas por primera vez en los equipos de forma automática
 void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
     try {
@@ -385,33 +368,6 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
         cout << "Ocurrio un error inesperado al sortear las incidencias." << endl;
     }
 }
-/*
-void sorteoIncidencias(ListaEquipo* l, int cantidad, int dia) //Cambiar Nombre funcion
-{
-    try
-    {
-        if (cantidad<=0)
-        {
-            throw ErrorNegativo();
-        }
-
-        Incidencia* nueva = nullptr;
-        for (int i=0;i<300;i++)
-        {
-            int pos = rand() % l->getTam();
-            Equipo* e = l->buscarPorPos(pos)->getEquipo();
-            int severidad = rand() % 3; // 0, 1 o 2
-            e->aplicarDegradacion(dia);
-        }
-    }
-    catch (ErrorNegativo& e)
-    {
-        cout << e.what() << endl;
-    }
-    catch (exception& e) {
-        cout << "Ocurrio un error inesperado al sortear las incidencias." << endl;
-    }
-}*/
 
 //Funcion que retorna el tipo de mantenimiento
 Mantenimiento* crearMantenimiento(int tipo) {
@@ -428,7 +384,6 @@ void esperarEnter(bool msg) {
     if (msg) {
         cout << "Presione ENTER para continuar... ";
     }
-    cin.clear();
     cin.ignore(100000, '\n');
 }
 

@@ -74,7 +74,6 @@ double Equipo::calcPrioridad(int diaActual) const {
 }
 
 void Equipo::aplicarDegradacion(int dia) {
-    srand(time(NULL)); // generar nueva semilla
     double valor1 = (rand() % 25) + 1; //Rango 1-25 Crit
     int valor3 = (rand() % 2); //Rango 0-2 Severidad Incidencia
     criticidad+valor1 > 100 ? criticidad=100 : criticidad+=valor1;

@@ -52,8 +52,6 @@ add_executable(Proyecto_1 main.cpp
         origen/excepciones/ErrorRango.cpp
         origen/excepciones/ErrorValor.cpp
         cabeceras/excepciones/ErrorValor.h
-        origen/archivos/ILectorArchivo.cpp
-        cabeceras/archivos/ILectorArchivo.h
         origen/archivos/LectorEquipos.cpp
         cabeceras/archivos/LectorEquipos.h
         origen/archivos/LectorIncidencias.cpp
