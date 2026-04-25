@@ -196,8 +196,9 @@ int main()
     // simulacion
     for (dia=1;dia<=30;dia++)
     {
-        equipos->degradarTodos(dia);
-        ListaEquipo* mant = new ListaEquipo();
+        // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
+        Equipo** equiposMant = new Equipo*[3];
+
         stringstream resultado;
         cout << " --- DIA " << dia << " ---" <<endl<<endl
         << "Equipos con mayor prioridad"<<endl;
@@ -210,7 +211,7 @@ int main()
             if (nodoActual) {
                 actual = nodoActual->getEquipo();
                 cout << actual->toString(dia) << endl;
-                mant->insertarFinal(actual); //Guarda los 3 primeros de la lista global
+                equiposMant[i] = actual; //Guarda los 3 primeros de la lista global
             }
         }
         cout<<endl<< endl<<"Presione ENTER para proceder con el mantenimiento.";
@@ -224,7 +225,8 @@ int main()
             case 1: {
                 int cont=0;
                 while (cont < 3) {
-                    cout << endl <<"- REPARA EQUIPO " << (cont+1) << "-"<<endl<<endl
+                    cout << endl <<"- REPARA EQUIPO " << (cont+1) << "-"<<endl
+                    <<equiposMant[cont]->toString(dia)<<endl<<endl
                     << "Tipos de Mantenimiento: " << endl
                     << "   1. Basico"<<endl
                     << "   2. Basico + Cambio Componentes"<<endl
@@ -232,11 +234,8 @@ int main()
                     << "   4. Basico + Cambio Componentes + Software"<<endl<<endl;
                     dato = pedirDato(1,4);
                     try {
-                        //Valida Nodo
-                        NodoEquipo* nodoMant = mant->buscarPorPos(cont);
-                        if (!nodoMant) { throw ErrorPuntero();}
                         //Valida Equipo
-                        Equipo* eqMant = nodoMant->getEquipo();
+                        Equipo* eqMant = equiposMant[cont];
                         if (!eqMant) { throw ErrorPuntero();}
                         //Crea Mantenimiento requerido por el usuario
                         Mantenimiento* m = crearMantenimiento(dato);
@@ -258,14 +257,16 @@ int main()
             }
             case 2: {
                 for (int i=0;i<3;i++) {
-                    int tipo = (rand() % 4) + 1; //Rango 1-4 Tipo
+                    int tipo;
                     try {
-                        //Valida Nodo
-                        NodoEquipo* nodoMant = mant->buscarPorPos(i);
-                        if (!nodoMant) { throw ErrorPuntero();}
                         //Valida Equipo
-                        Equipo* eqMant = nodoMant->getEquipo();
+                        Equipo* eqMant = equiposMant[i];
                         if (!eqMant) { throw ErrorPuntero();}
+                        if (eqMant->getTipo()=="Osciloscopio" || eqMant->getTipo()=="Microscopio") {
+                            tipo = (rand() % 2) + 1; // solo basico o cambio de componentes
+                        } else {
+                            tipo = (rand() % 4) + 1; // cualquiera de los 4 tipos
+                        }
                         //Crea Mantenimiento requerido por el usuario
                         Mantenimiento* m = crearMantenimiento(tipo);
                         cout << m->descripcion() << endl;
@@ -285,14 +286,25 @@ int main()
         esperarEnter();
         Sleep(100);
 
-        // Reporte -> Falta incluir cuales equipos [Puede usar ListaEquipo* mant], quienes hicieron el mantenimiento y extras?
-        resultado << "---- REPORTE DEL DIA " << dia << " ----"<< endl<< endl
-            << "Equipos atendidos: 3" << endl
-            << "Equipos pendientes de atencion: " << equipos->equiposPendientes(dia) << endl
-            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl; //Rev Promedio
-        cout << resultado.str();
+        // Reporte final
+        // Falta incluir quienes hicieron el mantenimiento y extras?
+
         try
         {
+            resultado << "---- REPORTE DEL DIA " << dia << " ----"<< endl<< endl
+            << "Equipos atendidos: 3" << endl<< endl
+            << "Resultados:" << endl;
+
+            // equipos mantenidos
+            for (int i=0;i<3;i++)
+            {
+                if (!equiposMant[i]) throw ErrorPuntero("Equipo en mantenimiento es nulo");
+                resultado<<equiposMant[i]->toString(dia)<<endl;
+            }
+
+            resultado <<endl<< "Equipos pendientes de atencion (prioridad mayor a 0): " << equipos->equiposPendientes(dia) << endl
+            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl; //Rev Promedio
+            cout << resultado.str();
             ofstream f("../registros.txt",ios::app); //El registro se guarda encima de un registro viejo
 
             if (!f)
@@ -307,8 +319,13 @@ int main()
         {
             cout << e.what() << endl;
         }
+        catch (ErrorPuntero& e)
+        {
+            cout << e.what() << endl;
+        }
 
-        // finalizar dia
+        // finalizar dia degradando y ordenando
+        equipos->degradarTodos(dia);
         equipos->ordenarPrioridad(dia);
         //cout << equipos->toString(dia); //Puede usarse para revisar que se haya hecho los mantenimientos y degradacion
         cout  << endl<< "Presione ENTER para continuar con el siguiente dia... ";

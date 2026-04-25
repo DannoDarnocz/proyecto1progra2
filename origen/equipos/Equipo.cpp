@@ -88,3 +88,4 @@ string Equipo::toString(int dia) const {
     return s.str();
 }
 
+
