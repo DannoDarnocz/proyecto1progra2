@@ -20,6 +20,7 @@ private:
 public:
     Incidencia(Equipo* e, int severidad, int dia);
     int getSeveridad() const;
+    void setEquipo(Equipo* e);
     string getSeveridadString() const;
     string toString() const;
 };

@@ -192,6 +192,8 @@ int main()
     cout << "\n";
     equipos->ordenarPrioridad(dia);
     cout << equipos->toString(dia);
+    //cout << "\n\n";
+    //cout << incidencias->toString(); //Visualizar equipos asignados a incidencias correctamente
     cout << "\n\n";
     cout << "Equipos han sido ordenados y las incidencias han sido sorteadas.\nPresione ENTER para proceder con la simulacion.";
     esperarEnter(false);
@@ -354,32 +356,36 @@ void sorteoIncidencias(ListaEquipo* l, int cantidad, ListaIncidencia* inci) {
         NodoEquipo* ne = l->getPrimero();
         NodoIncidencia* ni = inci->getPrimero();
         for (int i=0;i<cantidad;i++) {
-            if (!ne) { break;}
-            if (!ni) { break;}
+            if (!ne) { break;} //Nodo Equipos
+            if (!ni) { break;} //Nodo Incidencias
             Equipo* E = ne->getEquipo();
             if (!E) { ne = ne->sig; continue;}
             if (E->getCriticidad() <= 100 && E->getCriticidad() > 80) {
-                for (int j=0;j<7;j++) {
+                for (int j=0;j<9;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni->getIncidencia()->setEquipo(E);
                     ni = ni->getSig();
                 }
             } else if (E->getCriticidad() <= 80 && E->getCriticidad() > 55) {
-                for (int j=0;j<5;j++) {
+                for (int j=0;j<7;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni->getIncidencia()->setEquipo(E);
                     ni = ni->getSig();
                 }
             } else if (E->getCriticidad() <= 55 && E->getCriticidad() > 30) {
-                for (int j=0;j<3;j++) {
+                for (int j=0;j<5;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni->getIncidencia()->setEquipo(E);
                     ni = ni->getSig();
                 }
             } else if (E->getCriticidad() <= 30 && E->getCriticidad() > 0) {
-                for (int j=0;j<1;j++) {
+                for (int j=0;j<3;j++) {
                     if (!ni) { break;}
                     E->obtenerListaIncidencia()->insertarFinal(ni->getIncidencia());
+                    ni->getIncidencia()->setEquipo(E);
                     ni = ni->getSig();
                 }
             }

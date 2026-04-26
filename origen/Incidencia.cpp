@@ -20,6 +20,8 @@ Incidencia::Incidencia(Equipo* e, int severidad, int dia):equipo(e),dia(dia)
 
 int Incidencia::getSeveridad() const { return severidad; }
 
+void Incidencia::setEquipo(Equipo *e) { this->equipo = e; }
+
 string Incidencia::getSeveridadString() const
 {
     switch (severidad)
