@@ -24,6 +24,6 @@ ListaIncidencia* LectorIncidencias::leerArchivo(string nombreArchivo, ListaIncid
         Incidencia* incidencia = new Incidencia(nullptr,severidad,0);
         lista->insertarFinal(incidencia);
     }
-
+    f.close();
     return lista;
 }

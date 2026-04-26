@@ -47,7 +47,7 @@ ListaEquipo * LectorEquipos::leerArchivo(string nombreArchivo, ListaEquipo* le) 
         //Se guarda automaticamente los datos de los archivos en una lista de equipos siempre y cuando el archivo
         //Respete el formato.
     }
-
+    f.close();
     return lista;
 }
 

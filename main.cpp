@@ -33,6 +33,7 @@ void esperarEnter(bool = true);
 void limpiarPantalla();
 int pedirDato(int,int,bool=true);
 void limpiarBufer();
+void recargarArchivo(string);
 
 struct Menu
 {
@@ -60,9 +61,10 @@ struct Menu
 int main()
 {
     srand(time(NULL)); // generar nueva semilla
+    cout << "\n";
     ListaEquipo* equipos = new ListaEquipo();
     ListaIncidencia* incidencias = new ListaIncidencia();
-
+    recargarArchivo("../registrosNuevo.txt"); //Recarga un archivo para vaciarlo
     // Menu principal
     bool repetir = true;
     int dato;
@@ -183,12 +185,14 @@ int main()
         esperarEnter();
     }
 
-
+    cout << "\n\n";
     // Sorteo inicial de 300 incidencias
     int dia=0;
     sorteoIncidencias(equipos,300,incidencias);
+    cout << "\n";
     equipos->ordenarPrioridad(dia);
     cout << equipos->toString(dia);
+    cout << "\n\n";
     cout << "Equipos han sido ordenados y las incidencias han sido sorteadas.\nPresione ENTER para proceder con la simulacion.";
     esperarEnter(false);
     limpiarPantalla();
@@ -214,7 +218,7 @@ int main()
                 equiposMant[i] = actual; //Guarda los 3 primeros de la lista global
             }
         }
-        cout<<endl<< endl<<"Presione ENTER para proceder con el mantenimiento.";
+        cout << "\n\n"<<"Presione ENTER para proceder con el mantenimiento.";
 
         esperarEnter(false);
         Sleep(100);
@@ -239,7 +243,7 @@ int main()
                         if (!eqMant) { throw ErrorPuntero();}
                         //Crea Mantenimiento requerido por el usuario
                         Mantenimiento* m = crearMantenimiento(dato);
-                        cout << m->descripcion() << endl;
+                        cout << "Tipo de Mantenimiento: " << m->descripcion() << endl;
                         m->arreglar(eqMant, dia);
                         delete m; //Libera memoria
                         cont++;
@@ -251,6 +255,7 @@ int main()
                         cout << e.what() << endl;
                     } catch (ErrorCast& e) {
                         cout << e.what() << endl;
+                        Sleep(2500);
                     }
                 }
                 break;
@@ -269,10 +274,11 @@ int main()
                         }
                         //Crea Mantenimiento requerido por el usuario
                         Mantenimiento* m = crearMantenimiento(tipo);
-                        cout << m->descripcion() << endl;
+                        cout << "Tipo de Mantenimiento: " << m->descripcion() << endl;
                         m->arreglar(eqMant, dia);
                         delete m; //Libera memoria
                         cout << "Equipo reparado correctamente"<<endl;
+                        cout << "\n";
                         Sleep(100);
                     } catch (ErrorValor& e) {
                         cout << e.what() << endl;
@@ -284,7 +290,7 @@ int main()
             }
         }
         esperarEnter();
-        Sleep(100);
+        limpiarPantalla();
 
         // Reporte final
         // Falta incluir quienes hicieron el mantenimiento y extras?
@@ -306,14 +312,17 @@ int main()
             << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl; //Rev Promedio
             cout << resultado.str();
             ofstream f("../registros.txt",ios::app); //El registro se guarda encima de un registro viejo
+            ofstream g("../registrosNuevo.txt",ios::app); //Registro que guarda solo la de 1 iteración
 
-            if (!f)
+            if (!f || !g)
             {
                 throw ErrorArchivo();
             }
 
             f << resultado.str();
-
+            g << resultado.str();
+            f.close();
+            g.close();
         }
         catch (ErrorArchivo& e)
         {
@@ -438,4 +447,10 @@ void limpiarBufer() {
     cin.clear();
     // "numeric_limits" se usa para indicar la mayor cantidad posible de caracteres a ignorar en el bufer
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+void recargarArchivo(string ruta) {
+    ofstream f(ruta,ios::trunc);
+    if (!f) { throw ErrorArchivo(); }
+    f.close();
 }
