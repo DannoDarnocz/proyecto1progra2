@@ -199,11 +199,15 @@ int main()
     esperarEnter(false);
     limpiarPantalla();
 
+    // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
+    Equipo** equiposOrdenadosID = new Equipo*[Equipo::getContador()];
     // simulacion
     for (dia=1;dia<=30;dia++)
     {
         // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
         Equipo** equiposMant = new Equipo*[3];
+
+        // array pr
 
         stringstream resultado;
         cout << " --- DIA " << dia << " ---" <<endl<<endl
@@ -460,3 +464,4 @@ void recargarArchivo(string ruta) {
     if (!f) { throw ErrorArchivo(); }
     f.close();
 }
+

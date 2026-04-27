@@ -44,6 +44,7 @@ public:
     virtual string toString(int) const; //Devuelve todos los atributos + la prioridad
     virtual void leerDatos(stringstream& ss) = 0; //Lee datos enviados desde el archivo para copiar
     virtual Equipo* crear() = 0; //Se crea a si misma
+    static int getContador();
 
     Equipo* copiar(); // deepcopy
 };
