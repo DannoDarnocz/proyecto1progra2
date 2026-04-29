@@ -4,7 +4,9 @@
 
 #include "../../cabeceras/listas/ListaEquipo.h"
 #include "../../cabeceras/excepciones/ErrorValor.h"
-
+#include "../../cabeceras/excepciones/ErrorPuntero.h"
+#include <vector>
+#include <algorithm>
 NodoEquipo* ListaEquipo::buscarPorPos(int pos) {
 	if (pos < 0 || pos >= tam) { return nullptr; }
 	actual = primero;
@@ -129,7 +131,8 @@ bool ListaEquipo::eliminarPos(int pos) {
     --tam;
     return true; // Encontrado
 }
-// Busquedas
+// Busquedas (version vieja sin busqueda binaria)
+/*
 NodoEquipo* ListaEquipo::buscarPorId(string id) {
     if (!primero) { return nullptr; }
 
@@ -142,7 +145,7 @@ NodoEquipo* ListaEquipo::buscarPorId(string id) {
         actual = actual->sig;
     }
     return nullptr;
-}
+}*/
 
 
 //Ordenamientos
@@ -256,4 +259,40 @@ int ListaEquipo::equiposPendientes(int dia) {
         actual = actual->getSig();
     }
     return contador;
+}
+
+// Extrae el número después del guión
+int ListaEquipo::extraerNumero(string id) {
+    size_t pos = id.find('-'); // encontrar posicion del guion
+    if (pos == string::npos) return -1; // devolver si no lo encontró
+    return stoi(id.substr(pos + 1)); // retornar como entero sin la primera parte del id
+}
+
+Equipo* ListaEquipo::buscarPorId(string idBuscada) {
+    vector<Equipo*> vec;
+    NodoEquipo* actual = primero;
+    while (actual != nullptr) {
+        if (!actual->getEquipo()) throw ErrorPuntero("NodoEquipo sin Equipo asignado");
+        vec.push_back(actual->getEquipo());
+        actual = actual->getSig();
+    }
+
+    // ordenar vector
+    sort(vec.begin(), vec.end(), [this](Equipo* a, Equipo* b) {
+        return extraerNumero(a->getId()) < extraerNumero(b->getId());
+    });
+    // esto es una funcion anonima con lambda capturando "this" para llamar a extraerNumero
+
+    int izq = 0, der = (int)vec.size() - 1;
+    int numBuscado = extraerNumero(idBuscada);
+
+    while (izq <= der) {
+        int mid = izq + (der - izq) / 2;
+        int midNum = extraerNumero(vec[mid]->getId());
+
+        if (midNum == numBuscado)       return vec[mid];
+        else if (midNum < numBuscado)   izq = mid + 1;
+        else                            der = mid - 1;
+    }
+    return nullptr;
 }

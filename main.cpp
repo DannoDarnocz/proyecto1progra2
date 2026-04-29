@@ -325,8 +325,29 @@ int main()
                 throw ErrorArchivo();
             }
 
+            string dato;
+            Equipo* encontrado;
+            while (true)
+            {
+                cout<< endl<<"Ingrese el ID de un equipo para mostrar su estado actual (ENTER para seguir simulacion): ";
+                getline(cin,dato);
+                if (dato=="") break;
+                encontrado=equipos->buscarPorId(dato);
+                if (!encontrado)
+                {
+                    cout <<"No se encontro un equipo con el ID ingresado.";
+                }
+                else
+                {
+                    cout << encontrado->toString(dia) << endl;
+                }
+
+            }
+
             f << resultado.str();
             g << resultado.str();
+
+
             f.close();
             g.close();
         }
@@ -343,8 +364,7 @@ int main()
         equipos->degradarTodos(dia);
         equipos->ordenarPrioridad(dia);
         //cout << equipos->toString(dia); //Puede usarse para revisar que se haya hecho los mantenimientos y degradacion
-        cout  << endl<< "Presione ENTER para continuar con el siguiente dia... ";
-        esperarEnter(false);
+
         limpiarPantalla();
     }
 
