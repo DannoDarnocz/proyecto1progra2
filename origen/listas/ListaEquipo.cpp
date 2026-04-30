@@ -35,7 +35,7 @@ ListaEquipo::~ListaEquipo() {
 	while (primero) {
 		NodoEquipo* temp = primero;
 		primero = primero->sig;
-		delete temp->getEquipo();
+		delete temp;
 		actual = primero;
 	}
 }
@@ -267,7 +267,18 @@ int ListaEquipo::extraerNumero(string id) {
     string idParte = (pos != string::npos) ? id.substr(pos+1) : id; //Asignar Id sin guion si la tiene, sino mantiene id
     size_t inicioNum = idParte.find_first_of("0123456789"); //Busca el primer numero de la id
     if (inicioNum == string::npos) { return -1; } //Sino la encuentra, retorna -1
-    return stoi(idParte.substr(inicioNum)); // retornar como entero sin la primera parte del id
+
+    //
+    try
+    {
+        // retornar como entero sin la primera parte del id, si no es un numero o es muy grande, se captura la excepcion y se retorna -1
+        int numero = stoi(idParte.substr(inicioNum));
+        return numero;
+    }
+    catch (out_of_range& e)
+    {
+        return -1;
+    }
 }
 
 Equipo* ListaEquipo::buscarPorId(string idBuscada) {

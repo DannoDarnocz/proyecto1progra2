@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <conio.h>
 #include <iomanip>
 #include <limits>
-#include <windows.h>
+#include <thread>
+#include <chrono>
 #include "cabeceras/equipos/AllInOne.h"
 #include "cabeceras/listas/ListaEquipo.h"
 #include "cabeceras/excepciones/ErrorDecimal.h"
@@ -74,7 +74,14 @@ int main()
     cout << "\n";
     ListaEquipo* equipos = new ListaEquipo();
     ListaIncidencia* incidencias = new ListaIncidencia();
-    recargarArchivo("../registrosNuevo.txt"); //Recarga un archivo para vaciarlo
+    try
+    {
+        recargarArchivo("../registrosNuevo.txt"); //Recarga un archivo para vaciarlo
+    }
+    catch (ErrorArchivo& e)
+    {
+        cout << e.what() << endl;
+    }
     // Menu principal
     bool repetir = true;
     int dato;
@@ -211,13 +218,15 @@ int main()
 
     //Contador de equipos atendidos
     int contador=0;
-    // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
-    Equipo** equiposOrdenadosID = new Equipo*[Equipo::getContador()];
+
+    // lista para almacenar 3 equipos a los que se les hará mantenimiento
+    Equipo** equiposMant = new Equipo*[3];
+    for (int i=0;i<3;i++)
+        equiposMant[i] = nullptr; // para que no queden viendo a basura
+
     // simulacion
     for (dia=1;dia<=30;dia++)
     {
-        // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
-        Equipo** equiposMant = new Equipo*[3];
 
         // array pr
 
@@ -239,7 +248,7 @@ int main()
         cout << "\n\n"<<"Presione ENTER para proceder con el mantenimiento.";
 
         esperarEnter(false);
-        Sleep(100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
         //Reparacion
         dato = menu.reparacion();
@@ -266,14 +275,15 @@ int main()
                         delete m; //Libera memoria
                         cont++;
                         cout << "Equipo reparado correctamente"<<endl;
-                        Sleep(100);
+                        // esto es el equivalente de sleep que sirve para todos los OS
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     } catch (ErrorValor& e) {
                         cout << e.what() << endl;
                     } catch (ErrorPuntero& e) {
                         cout << e.what() << endl;
                     } catch (ErrorCast& e) {
                         cout << e.what() << endl;
-                        Sleep(2500);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     }
                 }
                 break;
@@ -297,7 +307,7 @@ int main()
                         delete m; //Libera memoria
                         cout << "Equipo reparado correctamente"<<endl;
                         cout << "\n";
-                        Sleep(100);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     } catch (ErrorValor& e) {
                         cout << e.what() << endl;
                     } catch (ErrorPuntero& e) {
@@ -435,10 +445,11 @@ int main()
     }
 
     cout  << "La simulacion ha finalizado." << endl;
-    Sleep(3000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
     delete equipos;
     delete incidencias;
+    delete[] equiposMant;
 }
 
 //Función para registrar las incidencias cargadas por primera vez en los equipos de forma automática
@@ -513,8 +524,9 @@ void esperarEnter(bool msg) {
 
 void limpiarPantalla()
 {
-    system("cls");
-    Sleep(100); // tiempo de espera por si acaso
+    // no hace nada porque nunca pudimos hacer que se limpiara la pantalla en clion xddd
+    //system("cls");
+    //Sleep(100); // tiempo de espera por si acaso
 }
 
 int pedirDato(int min, int max, bool mostrarTexto) {
@@ -549,7 +561,7 @@ void limpiarBufer() {
 
 void recargarArchivo(string ruta) {
     ofstream f(ruta,ios::trunc);
-    if (!f) { throw ErrorArchivo(); }
+    if (!f) { throw ErrorArchivoLectura("Recarga de archivo fallida"); }
     f.close();
 }
 

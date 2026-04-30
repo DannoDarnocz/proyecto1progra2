@@ -23,6 +23,7 @@ protected:
     ListaIncidencia* incidencias;
 public:
     Equipo(double crit, int diaMant, bool esProto = false);
+    virtual ~Equipo() = default;
     //Gets
     string getId() const;
     int getDiaMant() const;
@@ -46,7 +47,6 @@ public:
     virtual Equipo* crear() = 0; //Se crea a si misma
     static int getContador();
 
-    Equipo* copiar(); // deepcopy
 };
 
 
