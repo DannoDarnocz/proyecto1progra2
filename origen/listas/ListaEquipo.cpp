@@ -240,7 +240,7 @@ double ListaEquipo::promedioPrioridad(int diaActual) {
     while (actual) {
         Equipo* e = actual->getEquipo();
         if (e) {
-            suma += e->calcPrioridad(e->tiempoInactivo(diaActual));
+            suma += e->calcPrioridad(diaActual);
         }
         actual = actual->getSig();
     }
@@ -264,13 +264,15 @@ int ListaEquipo::equiposPendientes(int dia) {
 // Extrae el número después del guión
 int ListaEquipo::extraerNumero(string id) {
     size_t pos = id.find('-'); // encontrar posicion del guion
-    if (pos == string::npos) return -1; // devolver si no lo encontró
-    return stoi(id.substr(pos + 1)); // retornar como entero sin la primera parte del id
+    string idParte = (pos != string::npos) ? id.substr(pos+1) : id; //Asignar Id sin guion si la tiene, sino mantiene id
+    size_t inicioNum = idParte.find_first_of("0123456789"); //Busca el primer numero de la id
+    if (inicioNum == string::npos) { return -1; } //Sino la encuentra, retorna -1
+    return stoi(idParte.substr(inicioNum)); // retornar como entero sin la primera parte del id
 }
 
 Equipo* ListaEquipo::buscarPorId(string idBuscada) {
     vector<Equipo*> vec;
-    NodoEquipo* actual = primero;
+    actual = primero;
     while (actual != nullptr) {
         if (!actual->getEquipo()) throw ErrorPuntero("NodoEquipo sin Equipo asignado");
         vec.push_back(actual->getEquipo());

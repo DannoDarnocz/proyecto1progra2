@@ -56,6 +56,16 @@ struct Menu
         << "   2. Reparacion automatica"<<endl<<endl;
         return pedirDato(1,2);
     }
+    int finalizar() {
+        cout << "- MOSTRAR INFORMACION FINAL -" << endl << endl
+        << "   1. Mostrar equipos"          << endl
+        << "   2. Mostrar incidencias"       << endl
+        << "   3. Mostrar equipo especifico" << endl
+        << "   4. Estado global al finalizar"<< endl
+        << "   5. Mostrar registros"         << endl
+        << "   0. Salir"                     << endl << endl;
+        return pedirDato(0, 5);
+    }
 };
 
 int main()
@@ -199,6 +209,8 @@ int main()
     esperarEnter(false);
     limpiarPantalla();
 
+    //Contador de equipos atendidos
+    int contador=0;
     // lista temporal para almacenar 3 equipos a los que se les hará mantenimiento
     Equipo** equiposOrdenadosID = new Equipo*[Equipo::getContador()];
     // simulacion
@@ -299,7 +311,6 @@ int main()
         limpiarPantalla();
 
         // Reporte final
-        // Falta incluir quienes hicieron el mantenimiento y extras?
 
         try
         {
@@ -315,7 +326,7 @@ int main()
             }
 
             resultado <<endl<< "Equipos pendientes de atencion (prioridad mayor a 0): " << equipos->equiposPendientes(dia) << endl
-            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl; //Rev Promedio
+            << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl;
             cout << resultado.str();
             ofstream f("../registros.txt",ios::app); //El registro se guarda encima de un registro viejo
             ofstream g("../registrosNuevo.txt",ios::app); //Registro que guarda solo la de 1 iteración
@@ -364,11 +375,68 @@ int main()
         equipos->degradarTodos(dia);
         equipos->ordenarPrioridad(dia);
         //cout << equipos->toString(dia); //Puede usarse para revisar que se haya hecho los mantenimientos y degradacion
-
+        contador = contador + 3;
         limpiarPantalla();
     }
 
+    repetir = true;
+    while (repetir)
+    {
+        limpiarPantalla();
+        dato = menu.finalizar();
+        limpiarPantalla();
+        switch (dato)
+        {
+            case 1: // Mostrar equipos
+                cout << equipos->toString(30);
+                break;
+            case 2: // Mostrar incidencias
+                cout << incidencias->toString();
+                break;
+            case 3: {
+                // Mostrar equipo especifico
+                string dato;
+                Equipo* encontrado;
+                while (true) {
+                    cout<< endl<<"Ingrese el ID de un equipo para mostrar su estado actual (ENTER para continuar): ";
+                    getline(cin,dato);
+                    if (dato=="") break;
+                    encontrado=equipos->buscarPorId(dato);
+                    if (!encontrado) { cout <<"No se encontro un equipo con el ID ingresado."; }
+                    else { cout << encontrado->toString(dia) << endl; }
+                }
+                break;
+            }
+            case 4: // Estado global al finalizar
+                cout << "- ESTADO GLOBAL -" << endl;
+                cout << "Equipos atendidos: "<< contador << endl << "Resultados:" << endl;
+                cout << "Equipos pendientes de atencion (prioridad mayor a 0): " << equipos->equiposPendientes(dia) << endl
+                << "Riesgo global del laboratorio (promedio de prioridades): " << equipos->promedioPrioridad(dia) << endl << endl;
+                break;
+            case 5:
+                try {
+                    ifstream archivo("../registrosNuevo.txt");
+                    if (!archivo.is_open()) throw ErrorArchivoLectura("No se pudo abrir el archivo");
+                    string linea;
+                    while (getline(archivo, linea)) {
+                        cout << linea << endl;
+                    }
+                    archivo.close();
+                }
+                catch (ErrorArchivoLectura& e) {
+                    cout << e.what() << endl;
+                }
+                break;
+            case 0: // Salir
+                repetir = false;
+                continue;
+        }
+        if (dato!=3) { esperarEnter();}
+    }
+
     cout  << "La simulacion ha finalizado." << endl;
+    Sleep(3000);
+
     delete equipos;
     delete incidencias;
 }
