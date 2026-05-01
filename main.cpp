@@ -30,7 +30,6 @@ void sorteoIncidencias(ListaEquipo*,int,
     ListaIncidencia*);
 Mantenimiento* crearMantenimiento(int tipo);
 void esperarEnter(bool = true);
-void limpiarPantalla();
 int pedirDato(int,int,bool=true);
 void limpiarBufer();
 void recargarArchivo(string);
@@ -90,9 +89,7 @@ int main()
 
     while (repetir)
     {
-        limpiarPantalla();
         dato = menu.principal(equipos->getTam(),incidencias->getTam());
-        limpiarPantalla();
         switch (dato)
         {
         case 1:
@@ -214,7 +211,6 @@ int main()
     cout << "\n\n";
     cout << "Equipos han sido ordenados y las incidencias han sido sorteadas.\nPresione ENTER para proceder con la simulacion.";
     esperarEnter(false);
-    limpiarPantalla();
 
     //Contador de equipos atendidos
     int contador=0;
@@ -318,7 +314,6 @@ int main()
             }
         }
         esperarEnter();
-        limpiarPantalla();
 
         // Reporte final
 
@@ -386,15 +381,12 @@ int main()
         equipos->ordenarPrioridad(dia);
         //cout << equipos->toString(dia); //Puede usarse para revisar que se haya hecho los mantenimientos y degradacion
         contador = contador + 3;
-        limpiarPantalla();
     }
 
     repetir = true;
     while (repetir)
     {
-        limpiarPantalla();
         dato = menu.finalizar();
-        limpiarPantalla();
         switch (dato)
         {
             case 1: // Mostrar equipos
@@ -448,7 +440,7 @@ int main()
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
     delete equipos;
-    delete incidencias;
+    // no se borran incidencias porque cada equipo borraba la suya al aplicar mantenimiento
     delete[] equiposMant;
 }
 
@@ -522,12 +514,6 @@ void esperarEnter(bool msg) {
     cin.ignore(100000, '\n');
 }
 
-void limpiarPantalla()
-{
-    // no hace nada porque nunca pudimos hacer que se limpiara la pantalla en clion xddd
-    //system("cls");
-    //Sleep(100); // tiempo de espera por si acaso
-}
 
 int pedirDato(int min, int max, bool mostrarTexto) {
     int opcion;
